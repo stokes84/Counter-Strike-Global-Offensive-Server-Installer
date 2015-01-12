@@ -144,6 +144,13 @@ if [[ $(whoami) == "root" ]]; then
 			wget https://github.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/edit/master/install.sh
 			printf "$svc_acct now exists, run su $svc_acct then bash install.sh to continue"
 			(exit 1)
+		else
+			rm -f install.sh
+			rm -f ${install_log}
+			cd /home/$svc_acct
+			wget https://github.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/edit/master/install.sh
+			printf "$svc_acct now exists, run su $svc_acct then bash install.sh to continue"
+			(exit 1)
 		fi
  	# If Ubuntu || Debian
 	elif [[ -f /etc/lsb_release || -f /etc/debian_version ]]; then
@@ -155,6 +162,13 @@ if [[ $(whoami) == "root" ]]; then
 		fi
 		if ! id -u $svc_acct; then
 			adduser $svc_acct
+			rm -f install.sh
+			rm -f ${install_log}
+			cd /home/$svc_acct
+			wget https://github.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/edit/master/install.sh
+			printf "$svc_acct now exists, run su $svc_acct then bash install.sh to continue"
+			(exit 1)
+		else
 			rm -f install.sh
 			rm -f ${install_log}
 			cd /home/$svc_acct
