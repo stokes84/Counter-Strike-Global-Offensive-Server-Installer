@@ -56,6 +56,8 @@ Install
 
 Usage
 -----
+```su steam```
+```cd /home/steam/csgo```
 ```./srcds_run -game csgo```
 
 <br><br>
