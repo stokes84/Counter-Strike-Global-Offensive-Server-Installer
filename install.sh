@@ -229,5 +229,4 @@ sleep .5
 
 # Remove install log & Steam folder created during install
 rm -f ${install_log}
-rm -fr Steam
 printf "${bold}Install Complete!${normal}\n"
