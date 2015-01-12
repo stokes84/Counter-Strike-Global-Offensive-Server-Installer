@@ -1,4 +1,4 @@
-<h1 align='center'>Counter-Strike: Global Offensive Server Installer</h1>
+<h2 align='center'>Counter-Strike: Global Offensive Server Installer</h2>
 
 Automated Counter-Strike Global Offensive Server Installer with Metamod and Sourcemod.
 <br><br>
