@@ -128,27 +128,24 @@ fi
 if [[ $(whoami) == "root" ]]; then
 	start_spinner "${bold}Performing Pre-Install Tasks${normal}"
 	{
+	# If CentOS || Fedora
 	if [[ -f /etc/redhat-release ]]; then
 		if [[ $(uname -m) == *x86_64* ]]; then
 			yum -y update glibc.x86_64 libstdc++.x86_64
 			yum -y install glibc.i686 libstdc++.i686
-			continue
 		else
 			yum install -y glibc libstdc++
-			continue
 		fi
 		adduser steam
 		cd /home/steam
 		su steam
- 	If Ubuntu || Debian
-	elif [[ -f /etc/lsb_release ]] || [[ -f /etc/debian_version ]]; then
+ 	# If Ubuntu || Debian
+	elif [[ -f /etc/lsb_release || -f /etc/debian_version ]]; then
 		if [[ $(uname -m) == *x86_64* ]]; then
 			apt-get -y update lib64gcc1
 			apt-get -y install lib32gcc1
-			continue
 		else
 			apt-get -y install lib32gcc1
-			continue
 		fi
 		adduser steam
 		cd /home/steam
