@@ -20,19 +20,54 @@ Compatibility
 + Ubuntu 12/14
 + Debian 6/7
 
-Install
------------
-###Ubuntu / Debian
+Dependencies
+------------
+###CentOS / Fedora - Prerequisites
 ####64bit
-```here```
-```here```
-```here```
-```here```
+```yum -y update glibc.x86_64 libstdc++.x86_64```
+<br>
+```yum -y install glibc.i686 libstdc++.i686```
 ####32bit
+```yum -y install glibc libstdc++```
+###Ubuntu / Debian - Prerequisites
+####64bit
+```apt-get -y update lib64gcc1```
+<br>
+```apt-get -y install lib32gcc1```
+####32bit
+```apt-get -y install lib32gcc1```
 
-```
-wget --no-check-certificate https://raw.githubusercontent.com/stokes84/TeamSpeak-Installer/master/install.sh; bash install.sh; rm -f install.sh
-```
+Install
+-------
+```adduser steam```
+<br>
+``su steam```
+<br>
+```cd /home/steam```
+<br>
+```wget https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/install.sh```
+<br>
+```bash install.sh```
 
+Usage
+-----
+```./srcds_run -game csgo```
 
-
+Command Line Options
+--------------------
++ -usercon (enable rcon)
++ -strictportbind (prevent binding to next available port)
++ -ip
++ -port
++ +clientport
++ +tv_port
++ -tickrate
++ +map
++ +servercfgfile
++ -maxplayers
++ +mapgroup
++ +game_mode
++ +game_type
++ +host_workshop_collection 
++ +workshop_start_map 
++ -authkey
