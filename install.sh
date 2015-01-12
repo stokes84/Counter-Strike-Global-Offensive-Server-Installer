@@ -136,9 +136,11 @@ if [[ $(whoami) == "root" ]]; then
 		else
 			yum install -y glibc libstdc++
 		fi
-		adduser steam
-		cd /home/steam
-		su steam
+		if ! id -u $svc_acct; then
+			adduser $svc_acct
+			cd /home/$svc_acct
+			su $svc_acct
+		fi
  	# If Ubuntu || Debian
 	elif [[ -f /etc/lsb_release || -f /etc/debian_version ]]; then
 		if [[ $(uname -m) == *x86_64* ]]; then
@@ -147,9 +149,11 @@ if [[ $(whoami) == "root" ]]; then
 		else
 			apt-get -y install lib32gcc1
 		fi
-		adduser steam
-		cd /home/steam
-		su steam
+		if ! id -u $svc_acct; then
+			adduser $svc_acct
+			cd /home/$svc_acct
+			su $svc_acct
+		fi
 	else
 		printf "Only CentOS, Fedora, Ubuntu, and Debian officially supported\n"
 		(exit 1)
