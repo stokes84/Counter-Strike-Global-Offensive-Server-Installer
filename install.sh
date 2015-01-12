@@ -140,13 +140,13 @@ if [[ $(whoami) == "root" ]]; then
 			adduser $svc_acct
 			rm -f install.sh
 			cd /home/$svc_acct
-			wget https://github.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/edit/master/install.sh
+			wget wget https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/install.sh
 			printf "$svc_acct now exists, cd /home/$svc_acct then su $svc_acct then bash install.sh to continue\n"
 			(exit 1)
 		else
 			rm -f install.sh
 			cd /home/$svc_acct
-			wget https://github.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/edit/master/install.sh
+			wget wget https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/install.sh
 			printf "$svc_acct now exists, cd /home/$svc_acct then su $svc_acct then bash install.sh to continue\n"
 			(exit 1)
 		fi
@@ -162,13 +162,13 @@ if [[ $(whoami) == "root" ]]; then
 			adduser $svc_acct
 			rm -f install.sh
 			cd /home/$svc_acct
-			wget https://github.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/edit/master/install.sh
+			wget wget https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/install.sh
 			printf "$svc_acct now exists, cd /home/$svc_acct then su $svc_acct then bash install.sh to continue\n"
 			(exit 1)
 		else
 			rm -f install.sh
 			cd /home/$svc_acct
-			wget https://github.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/edit/master/install.sh
+			wget wget https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/install.sh
 			printf "$svc_acct now exists, cd /home/$svc_acct then su $svc_acct then bash install.sh to continue\n"
 			(exit 1)
 		fi
