@@ -28,7 +28,6 @@ Dependencies
 ```
 yum -y update glibc.x86_64 libstdc++.x86_64
 ```
-<br>
 ```
 yum -y install glibc.i686 libstdc++.i686
 ```
@@ -41,7 +40,6 @@ yum -y install glibc libstdc++
 ```
 apt-get -y update lib64gcc1
 ```
-<br>
 ```
 apt-get -y install lib32gcc1
 ```
@@ -55,21 +53,17 @@ apt-get -y install lib32gcc1
 Install
 -------
 ```
-adduser steam```
+adduser steam
 ```
-<br>
 ```
 su steam
 ```
-<br>
 ```
 cd /home/steam
 ```
-<br>
 ```
 wget https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/install.sh
 ```
-<br>
 ```
 bash install.sh
 ```
