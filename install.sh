@@ -125,6 +125,38 @@ if [[ -f $install_log ]]; then
 	rm -f $install_log
 fi
 
+if [[ $(whoami) == "root" ]]; then
+	start_spinner "${bold}Performing Pre-Install Tasks${normal}"
+	{
+	if [[ -f /etc/redhat-release ]]; then
+		if [[ $(uname -m) == *x86_64* ]]; then
+			yum -y update glibc.x86_64 libstdc++.x86_64
+			yum -y install glibc.i686 libstdc++.i686
+		else
+			yum install -y glibc libstdc++ > /dev/null
+		fi
+		adduser steam
+		cd /home/steam
+		su steam
+ 	If Ubuntu || Debian
+	elif [[ -f /etc/lsb_release || -f /etc/debian_version ]]; then
+		if [[ $(uname -m) == *x86_64* ]]; then
+			apt-get -y update lib64gcc1
+			apt-get -y install lib32gcc1
+		else
+			apt-get -y install lib32gcc1
+		fi
+		adduser steam
+		cd /home/steam
+		su steam
+	else
+		printf "Only CentOS, Fedora, Ubuntu, and Debian officially supported\n"
+		(exit 1)
+	fi
+	}  &> ${install_log}
+	stop_spinner $?
+fi
+
 start_spinner "${bold}Checking Linux Distro${normal}"
 
 sleep .5
