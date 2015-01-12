@@ -1,6 +1,6 @@
 <h2 align='center'>Counter-Strike: Global Offensive Server Installer</h2>
 
-Automated Counter-Strike Global Offensive Server Installer with Metamod and Sourcemod.
+<p align='center'>Automated Counter-Strike Global Offensive Server Installer with Metamod and Sourcemod.</p>
 <br><br>
 Metamod: https://www.sourcemm.net/
 <br>
