@@ -141,7 +141,7 @@ if [[ $(whoami) == "root" ]]; then
 		cd /home/steam
 		su steam
  	If Ubuntu || Debian
-	elif [[ -f /etc/lsb_release || -f /etc/debian_version ]]; then
+	elif [[ -f /etc/lsb_release ]] || [[ -f /etc/debian_version ]]; then
 		if [[ $(uname -m) == *x86_64* ]]; then
 			apt-get -y update lib64gcc1
 			apt-get -y install lib32gcc1
