@@ -140,6 +140,9 @@ if [[ $(whoami) == "root" ]]; then
 			adduser $svc_acct
 			cd /home/$svc_acct
 			su $svc_acct
+		else
+			su $svc_acct
+			cd /home/$svc_acct
 		fi
  	# If Ubuntu || Debian
 	elif [[ -f /etc/lsb_release || -f /etc/debian_version ]]; then
@@ -153,6 +156,9 @@ if [[ $(whoami) == "root" ]]; then
 			adduser $svc_acct
 			cd /home/$svc_acct
 			su $svc_acct
+		else
+			su $svc_acct
+			cd /home/$svc_acct
 		fi
 	else
 		printf "Only CentOS, Fedora, Ubuntu, and Debian officially supported\n"
