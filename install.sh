@@ -139,14 +139,12 @@ if [[ $(whoami) == "root" ]]; then
 		if ! id -u $svc_acct; then
 			adduser $svc_acct
 			rm -f install.sh
-			rm -f ${install_log}
 			cd /home/$svc_acct
 			wget https://github.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/edit/master/install.sh
 			printf "$svc_acct now exists, run su $svc_acct then bash install.sh to continue"
 			(exit 1)
 		else
 			rm -f install.sh
-			rm -f ${install_log}
 			cd /home/$svc_acct
 			wget https://github.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/edit/master/install.sh
 			printf "$svc_acct now exists, run su $svc_acct then bash install.sh to continue"
@@ -163,14 +161,12 @@ if [[ $(whoami) == "root" ]]; then
 		if ! id -u $svc_acct; then
 			adduser $svc_acct
 			rm -f install.sh
-			rm -f ${install_log}
 			cd /home/$svc_acct
 			wget https://github.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/edit/master/install.sh
 			printf "$svc_acct now exists, run su $svc_acct then bash install.sh to continue"
 			(exit 1)
 		else
 			rm -f install.sh
-			rm -f ${install_log}
 			cd /home/$svc_acct
 			wget https://github.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/edit/master/install.sh
 			printf "$svc_acct now exists, run su $svc_acct then bash install.sh to continue"
