@@ -1,7 +1,5 @@
 <h1 align='center'>Counter-Strike: Global Offensive Server Installer</h1>
 
-<br>
-
 Automated Counter-Strike Global Offensive Server Installer with Metamod and Sourcemod.
 <br><br>
 Metamod: https://www.sourcemm.net/
@@ -11,6 +9,7 @@ Metamod Plugins: https://forums.alliedmods.net/forumdisplay.php?f=108
 SourceMod: http://www.sourcemod.net/
 <br>
 SourceMod Plugins: http://www.sourcemod.net/plugins.php?cat=0&mod=21&title=&author=&description=&search=1
+
 <br><br>
 
 Compatibility
@@ -19,6 +18,8 @@ Compatibility
 + Fedora 19/20
 + Ubuntu 12/14
 + Debian 6/7
+
+<br><br>
 
 Dependencies
 ------------
@@ -37,6 +38,8 @@ Dependencies
 ####32bit
 ```apt-get -y install lib32gcc1```
 
+<br><br>
+
 Install
 -------
 ```adduser steam```
@@ -49,9 +52,13 @@ Install
 <br>
 ```bash install.sh```
 
+<br><br>
+
 Usage
 -----
 ```./srcds_run -game csgo```
+
+<br><br>
 
 Command Line Options
 --------------------
