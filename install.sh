@@ -164,7 +164,7 @@ fi
 
 start_spinner "${bold}Checking Linux Distro${normal}"
 
-sleep .5
+sleep 1
 
 {
 if [[ -f /etc/redhat-release ]]; then
@@ -181,7 +181,7 @@ fi
 
 stop_spinner $?
 
-sleep .5
+sleep 1
 
 start_spinner "${bold}Check Pre-Install Tasks${normal}"
 
@@ -198,7 +198,7 @@ fi
 
 stop_spinner $?
 
-sleep .5
+sleep 1
 
 start_spinner "${bold}Installing SteamCMD${normal}"
 
@@ -214,7 +214,7 @@ rm -f steamcmd_linux.tar.gz
 
 stop_spinner $?
 
-sleep .5
+sleep 1
 
 start_spinner "${bold}Installing Counter-Strike: Global Offensive${normal}"
 
@@ -238,7 +238,7 @@ sed -i 's|addons/metamod/bin/server|../csgo/addons/metamod/bin/server|g' addons/
 
 stop_spinner $?
 
-sleep .5
+sleep 1
 
 start_spinner "${bold}Installing SourceMod${normal}"
 
@@ -251,7 +251,7 @@ rm sourcemod*
 
 stop_spinner $?
 
-sleep .5
+sleep 1
 
 start_spinner "${bold}Finalizing Install${normal}"
 
