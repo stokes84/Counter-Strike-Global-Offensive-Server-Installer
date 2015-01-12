@@ -132,8 +132,10 @@ if [[ $(whoami) == "root" ]]; then
 		if [[ $(uname -m) == *x86_64* ]]; then
 			yum -y update glibc.x86_64 libstdc++.x86_64
 			yum -y install glibc.i686 libstdc++.i686
+			continue
 		else
-			yum install -y glibc libstdc++ > /dev/null
+			yum install -y glibc libstdc++
+			continue
 		fi
 		adduser steam
 		cd /home/steam
@@ -143,8 +145,10 @@ if [[ $(whoami) == "root" ]]; then
 		if [[ $(uname -m) == *x86_64* ]]; then
 			apt-get -y update lib64gcc1
 			apt-get -y install lib32gcc1
+			continue
 		else
 			apt-get -y install lib32gcc1
+			continue
 		fi
 		adduser steam
 		cd /home/steam
