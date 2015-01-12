@@ -136,20 +136,6 @@ if [[ $(whoami) == "root" ]]; then
 		else
 			yum install -y glibc libstdc++
 		fi
-		if ! id -u $svc_acct; then
-			adduser $svc_acct
-			rm -f install.sh
-			cd /home/$svc_acct
-			wget wget https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/install.sh
-			printf "$svc_acct now exists, cd /home/$svc_acct then su $svc_acct then bash install.sh to continue\n"
-			(exit 1)
-		else
-			rm -f install.sh
-			cd /home/$svc_acct
-			wget wget https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/install.sh
-			printf "$svc_acct now exists, cd /home/$svc_acct then su $svc_acct then bash install.sh to continue\n"
-			(exit 1)
-		fi
  	# If Ubuntu || Debian
 	elif [[ -f /etc/lsb_release || -f /etc/debian_version ]]; then
 		if [[ $(uname -m) == *x86_64* ]]; then
@@ -158,24 +144,20 @@ if [[ $(whoami) == "root" ]]; then
 		else
 			apt-get -y install lib32gcc1
 		fi
-		if ! id -u $svc_acct; then
-			adduser $svc_acct
-			rm -f install.sh
-			cd /home/$svc_acct
-			wget wget https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/install.sh
-			printf "$svc_acct now exists, cd /home/$svc_acct then su $svc_acct then bash install.sh to continue\n"
-			(exit 1)
-		else
-			rm -f install.sh
-			cd /home/$svc_acct
-			wget wget https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/install.sh
-			printf "$svc_acct now exists, cd /home/$svc_acct then su $svc_acct then bash install.sh to continue\n"
-			(exit 1)
-		fi
 	else
 		printf "Only CentOS, Fedora, Ubuntu, and Debian officially supported\n"
 		(exit 1)
 	fi
+	if ! id -u $svc_acct; then
+		adduser $svc_acct
+	fi
+	rm -f install.sh
+	cd /home/$svc_acct
+	wget wget https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/install.sh
+	chown $svc_acct:$svc_acct
+	chmod +x /home/$svc_acct/install.sh
+	printf "$svc_acct now exists, cd /home/$svc_acct then su $svc_acct then bash install.sh to continue\n"
+	(exit 1)
 	} &> ${install_log}
 	stop_spinner $?
 fi
