@@ -196,6 +196,7 @@ cd /home/$svc_acct/$game_folder/csgo
 wget --tries=5 ${metamod_file}
 tar xfz mmsource*
 rm mmsource*
+sed -i 's|addons/metamod/bin/server|../csgo/addons/metamod/bin/server|g' addons/metamod.vdf
 } &>> ${install_log}
 
 stop_spinner $?
