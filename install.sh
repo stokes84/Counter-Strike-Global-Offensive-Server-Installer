@@ -2,31 +2,31 @@
 # Last Updated - 1/10/15
 # Chris Stokes - https://github.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer
 ################################################
-# CentOS / Fedora -- Step 1					   #					   
-# --- 32bit ---								   #
-# yum -y install glibc libstdc++			   #
-#											   #
-# --- 64bit ---								   #
+# CentOS / Fedora -- Step 1		       #
+# --- 32bit ---				       #
+# yum -y install glibc libstdc++	       #
+#					       #
+# --- 64bit ---				       #
 # yum -y update glibc.x86_64 libstdc++.x86_64  #
 # yum -y install glibc.i686 libstdc++.i686     #
-#											   #
+#					       #
 ################################################
-# Ubuntu / Debian -- Step 1					   #					   
-# --- 32bit ---								   #
-# apt-get -y install lib32gcc1				   #
-#											   #
-# --- 64bit ---								   #
-# apt-get -y update lib64gcc1 				   #
-# apt-get -y install lib32gcc1				   #
-#											   #
-#############################################################################################################
-# All Distro's -- Step 2																					#
-# adduser steam																								#
-# cd /home/steam																							#
-# su steam																									#
-# wget https://github.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/blob/master/install.sh  #
-# bash install.sh																							#
-#############################################################################################################
+# Ubuntu / Debian -- Step 1		       #
+# --- 32bit ---				       #
+# apt-get -y install lib32gcc1		       #
+#					       #
+# --- 64bit ---				       #
+# apt-get -y update lib64gcc1 		       #
+# apt-get -y install lib32gcc1		       #
+#					       #
+#######################################################################################################################
+# All Distro's -- Step 2											      #
+# adduser steam													      #
+# cd /home/steam												      #
+# su steam													      #
+# wget https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/install.sh  #
+# bash install.sh												      #
+#######################################################################################################################
 
 # Install Variables
 # Check required versions for currrent CSGO build (may need snapshot) https://wiki.alliedmods.net/Required_Versions_(SourceMod)
