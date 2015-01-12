@@ -44,7 +44,7 @@ Install
 -------
 ```adduser steam```
 <br>
-``su steam```
+```su steam```
 <br>
 ```cd /home/steam```
 <br>
