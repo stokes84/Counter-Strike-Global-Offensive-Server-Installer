@@ -49,8 +49,7 @@ green=`tput setaf 2; tput bold`
 
 # Progress spinner function
 function _spinner() {
-    # $1 start/stop
-    #
+    # 		$1 start/stop
     # on start: $2 display message
     # on stop : $2 process exit status
     #           $3 spinner function pid (supplied from stop_spinner)
@@ -126,70 +125,35 @@ if [[ -f $install_log ]]; then
 	rm -f $install_log
 fi
 
-if [[ $(whoami) == "root" ]]; then
-	start_spinner "${bold}Performing Pre-Install Tasks${normal}"
-	{
-	# If CentOS || Fedora
-	if [[ -f /etc/redhat-release ]]; then
-		if [[ $(uname -m) == *x86_64* ]]; then
-			yum -y update glibc.x86_64 libstdc++.x86_64
-			yum -y install glibc.i686 libstdc++.i686
-		else
-			yum install -y glibc libstdc++
-		fi
- 	# If Ubuntu || Debian
-	elif [[ -f /etc/lsb_release || -f /etc/debian_version ]]; then
-		if [[ $(uname -m) == *x86_64* ]]; then
-			apt-get -y update lib64gcc1
-			apt-get -y install lib32gcc1
-		else
-			apt-get -y install lib32gcc1
-		fi
-	else
-		printf "Only CentOS, Fedora, Ubuntu, and Debian officially supported\n"
-		(exit 1)
-	fi
-	if ! id -u $svc_acct; then
-		adduser $svc_acct
-	fi
-	rm -f install.sh
-	cd /home/$svc_acct
-	wget wget https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/install.sh
-	chown $svc_acct:$svc_acct
-	chmod +x /home/$svc_acct/install.sh
-	printf "$svc_acct now exists, cd /home/$svc_acct then su $svc_acct then bash install.sh to continue\n"
-	(exit 1)
-	} &> ${install_log}
-	stop_spinner $?
-fi
-
-start_spinner "${bold}Checking Linux Distro${normal}"
+start_spinner "${bold}Performing Pre-Install Tasks${normal}"
 
 {
+if [[ $(whoami) != "root" ]]; then
+	printf "Please su root before running this installer\n"
+	(exit 1)
+fi
+# If CentOS || Fedora
 if [[ -f /etc/redhat-release ]]; then
-	continue # Is CentOS || Fedora
-elif [[ -f /etc/lsb_release ]]; then
-	continue # Is Ubuntu
-elif [[ -f /etc/debian_version ]]; then
-	continue # Is Debian
+	if [[ $(uname -m) == *x86_64* ]]; then
+		yum -y update glibc.x86_64 libstdc++.x86_64
+		yum -y install glibc.i686 libstdc++.i686
+	else
+		yum install -y glibc libstdc++
+	fi
+# If Ubuntu || Debian
+elif [[ -f /etc/lsb_release || -f /etc/debian_version ]]; then
+	if [[ $(uname -m) == *x86_64* ]]; then
+		apt-get -y update lib64gcc1
+		apt-get -y install lib32gcc1
+	else
+		apt-get -y install lib32gcc1
+	fi
 else
 	printf "Only CentOS, Fedora, Ubuntu, and Debian officially supported\n"
 	(exit 1)
 fi
-} &> ${install_log}
-
-stop_spinner $?
-
-start_spinner "${bold}Check Pre-Install Tasks${normal}"
-
-{
-if [[ $(whoami) != "$svc_acct" ]]; then
-	if id -u $svc_acct; then
-		printf "Switch to user $svc_acct before starting install\n"
-	else
-		printf "User $svc_acct does not exist, follow pre-install steps\n"
-	fi
-	(exit 1)
+if ! id -u $svc_acct; then
+	adduser $svc_acct
 fi
 } &> ${install_log}
 
@@ -243,12 +207,11 @@ stop_spinner $?
 start_spinner "${bold}Finalizing Install${normal}"
 
 {
-# Change ownership of everything to our service account
+# Change ownership of everything to our service account and remove the log
 chown -R $svc_acct:$svc_acct /home/$svc_acct
+rm -f ${install_log}
 } &> ${install_log}
 
 stop_spinner $?
 
-# Remove install log & Steam folder created during install
-rm -f ${install_log}
 printf "${bold}Install Complete!${normal}\n"
