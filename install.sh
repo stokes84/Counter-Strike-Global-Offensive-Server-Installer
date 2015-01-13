@@ -35,7 +35,6 @@
 svc_acct="steam"
 steamcmd_folder="steamcmd"
 game_folder="csgo"
-install_log="$( cd "$( dirname "$0" )" && pwd )/install.log"
 steam_file="http://media.steampowered.com/installer/steamcmd_linux.tar.gz"
 metamod_file="http://www.metamodsource.net/mmsdrop/1.10/mmsource-1.10.5-git927-linux.tar.gz"
 sourcemod_file="http://www.sourcemod.net/smdrop/1.6/sourcemod-1.6.4-git4621-linux.tar.gz"
@@ -60,7 +59,7 @@ function _spinner() {
     case $1 in
         start)
             # calculate the column where spinner and status msg will be displayed
-            let column=$(tput cols)-${#2}-20
+            let column=$(tput cols)-${#2}
             # display message and position the cursor in $column column
             printf "${2}"
             printf "%${column}s"
@@ -91,10 +90,10 @@ function _spinner() {
             else
                 printf "\b[${red}${on_fail}${normal}]\n\n"
 		eval printf %.0s- '{1..'"${COLUMNS:-$(tput cols)}"\}; echo
-		install_log_title="${bold}Check Error Log (${install_log})${normal}"
-		printf "%*s\n" $(((${#install_log_title}+$(tput cols))/2)) "$install_log_title"
+		error_title="${bold}Check Error Log${normal}"
+		printf "%*s\n" $(((${#error_title}+$(tput cols))/2)) "$error_title"
 		eval printf %.0s- '{1..'"${COLUMNS:-$(tput cols)}"\}; echo
-		tail -2 ${install_log}
+		tail -2 install.log
 		printf "\n"
 		exit 1
             fi
@@ -121,8 +120,8 @@ function stop_spinner {
 }
 
 # Remove previous install log
-if [[ -f $install_log ]]; then
-	rm -f $install_log
+if [[ -f "install.log" ]]; then
+	rm -f install.log
 fi
 
 start_spinner "${bold}Performing Pre-Install Tasks${normal}"
@@ -155,7 +154,7 @@ fi
 if ! id -u $svc_acct; then
 	adduser $svc_acct
 fi
-} &> ${install_log}
+} &> install.log
 
 stop_spinner $?
 
@@ -169,7 +168,7 @@ wget -4 ${steam_file}
 tar -xvzf steamcmd_linux.tar.gz
 rm -f steamcmd_linux.tar.gz
 ./steamcmd.sh +login anonymous +force_install_dir /home/$svc_acct +quit
-} &>> ${install_log}
+} &>> install.log
 
 stop_spinner $?
 
@@ -177,7 +176,7 @@ start_spinner "${bold}Installing Counter-Strike: Global Offensive${normal}"
 
 {
 ./steamcmd.sh +login anonymous +force_install_dir /home/$svc_acct/$game_folder +app_update 740 validate +quit
-} &>> ${install_log}
+} &>> install.log
 
 stop_spinner $?
 
@@ -189,7 +188,7 @@ wget -4 ${metamod_file}
 tar xfz mmsource*
 rm mmsource*
 sed -i 's|addons/metamod/bin/server|../csgo/addons/metamod/bin/server|g' addons/metamod.vdf
-} &>> ${install_log}
+} &>> install.log
 
 stop_spinner $?
 
@@ -200,18 +199,16 @@ start_spinner "${bold}Installing SourceMod${normal}"
 wget -4 ${sourcemod_file} 
 tar xfz sourcemod*
 rm sourcemod*
-} &>> ${install_log}
+} &>> install.log
 
 stop_spinner $?
 
-start_spinner "${bold}Finalizing Install${normal}"
+start_spinner "${bold}Performing Post-Install Tasks${normal}"
 
 {
-# Change ownership of everything to our service account and clean yourself up
+# Change ownership of everything to our service account
 chown -R $svc_acct:$svc_acct /home/$svc_acct
-rm -f install.sh
-rm -f ${install_log}
-} &> ${install_log}
+} &> install.log
 
 stop_spinner $?
 
