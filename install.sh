@@ -165,7 +165,7 @@ start_spinner "${bold}Installing SteamCMD${normal}"
 cd /home/$svc_acct
 mkdir $steamcmd_folder
 cd $steamcmd_folder
-wget --tries=5 ${steam_file}
+wget -4 ${steam_file}
 tar -xvzf steamcmd_linux.tar.gz
 rm -f steamcmd_linux.tar.gz
 ./steamcmd.sh +login anonymous +force_install_dir /home/$svc_acct +quit
@@ -185,7 +185,7 @@ start_spinner "${bold}Installing MetaMod${normal}"
 
 {
 cd /home/$svc_acct/$game_folder/csgo
-wget --tries=5 ${metamod_file}
+wget -4 ${metamod_file}
 tar xfz mmsource*
 rm mmsource*
 sed -i 's|addons/metamod/bin/server|../csgo/addons/metamod/bin/server|g' addons/metamod.vdf
@@ -197,7 +197,7 @@ start_spinner "${bold}Installing SourceMod${normal}"
 
 {
 # Install SourceMod
-wget --tries=5 ${sourcemod_file} 
+wget -4 ${sourcemod_file} 
 tar xfz sourcemod*
 rm sourcemod*
 } &>> ${install_log}
@@ -207,8 +207,9 @@ stop_spinner $?
 start_spinner "${bold}Finalizing Install${normal}"
 
 {
-# Change ownership of everything to our service account and remove the log
+# Change ownership of everything to our service account and clean yourself up
 chown -R $svc_acct:$svc_acct /home/$svc_acct
+rm -f install.sh
 rm -f ${install_log}
 } &> ${install_log}
 
