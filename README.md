@@ -21,45 +21,10 @@ Compatibility
 
 <br><br>
 
-Dependencies
-------------
-###CentOS / Fedora - Prerequisites
-####64bit
-```
-yum -y update glibc.x86_64 libstdc++.x86_64
-```
-```
-yum -y install glibc.i686 libstdc++.i686
-```
-####32bit
-```
-yum -y install glibc libstdc++
-```
-###Ubuntu / Debian - Prerequisites
-####64bit
-```
-apt-get -y update lib64gcc1
-```
-```
-apt-get -y install lib32gcc1
-```
-####32bit
-```
-apt-get -y install lib32gcc1
-```
-
-<br><br>
-
 Install
 -------
 ```
-adduser steam
-```
-```
-su steam
-```
-```
-cd /home/steam
+su root
 ```
 ```
 wget https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/install.sh
