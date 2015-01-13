@@ -88,15 +88,16 @@ function _spinner() {
             # inform the user uppon success or failure
             if [[ $2 -eq 0 ]]; then
                 printf "\b[${green}${on_success}${normal}]\n"
+                sleep 1
             else
                 printf "\b[${red}${on_fail}${normal}]\n\n"
-				eval printf %.0s- '{1..'"${COLUMNS:-$(tput cols)}"\}; echo
-				install_log_title="${bold}Check Error Log (${install_log})${normal}"
-				printf "%*s\n" $(((${#install_log_title}+$(tput cols))/2)) "$install_log_title"
-				eval printf %.0s- '{1..'"${COLUMNS:-$(tput cols)}"\}; echo
-				tail -2 ${install_log}
-				printf "\n"
-				exit 1
+		eval printf %.0s- '{1..'"${COLUMNS:-$(tput cols)}"\}; echo
+		install_log_title="${bold}Check Error Log (${install_log})${normal}"
+		printf "%*s\n" $(((${#install_log_title}+$(tput cols))/2)) "$install_log_title"
+		eval printf %.0s- '{1..'"${COLUMNS:-$(tput cols)}"\}; echo
+		tail -2 ${install_log}
+		printf "\n"
+		exit 1
             fi
             ;;
         *)
@@ -164,8 +165,6 @@ fi
 
 start_spinner "${bold}Checking Linux Distro${normal}"
 
-sleep 1
-
 {
 if [[ -f /etc/redhat-release ]]; then
 	continue # Is CentOS || Fedora
@@ -180,8 +179,6 @@ fi
 } &> ${install_log}
 
 stop_spinner $?
-
-sleep 1
 
 start_spinner "${bold}Check Pre-Install Tasks${normal}"
 
@@ -198,8 +195,6 @@ fi
 
 stop_spinner $?
 
-sleep 1
-
 start_spinner "${bold}Installing SteamCMD${normal}"
 
 {
@@ -214,8 +209,6 @@ rm -f steamcmd_linux.tar.gz
 
 stop_spinner $?
 
-sleep 1
-
 start_spinner "${bold}Installing Counter-Strike: Global Offensive${normal}"
 
 {
@@ -223,8 +216,6 @@ start_spinner "${bold}Installing Counter-Strike: Global Offensive${normal}"
 } &>> ${install_log}
 
 stop_spinner $?
-
-sleep .5
 
 start_spinner "${bold}Installing MetaMod${normal}"
 
@@ -238,8 +229,6 @@ sed -i 's|addons/metamod/bin/server|../csgo/addons/metamod/bin/server|g' addons/
 
 stop_spinner $?
 
-sleep 1
-
 start_spinner "${bold}Installing SourceMod${normal}"
 
 {
@@ -251,8 +240,6 @@ rm sourcemod*
 
 stop_spinner $?
 
-sleep 1
-
 start_spinner "${bold}Finalizing Install${normal}"
 
 {
@@ -261,8 +248,6 @@ chown -R $svc_acct:$svc_acct /home/$svc_acct
 } &> ${install_log}
 
 stop_spinner $?
-
-sleep .5
 
 # Remove install log & Steam folder created during install
 rm -f ${install_log}
