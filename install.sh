@@ -58,13 +58,13 @@ function _spinner() {
 
     case $1 in
         start)
-            # calculate the column where spinner and status msg will be displayed
+            # Calculate the column where spinner and status msg will be displayed
             let column=$(tput cols)-${#2}
-            # display message and position the cursor in $column column
+            # Display message and position the cursor in $column column
             printf "${2}"
             printf "%${column}s"
 
-            # start spinner
+            # Start spinner
             i=1
             sp='\|/-'
             delay=0.15
@@ -77,7 +77,7 @@ function _spinner() {
             ;;
         stop)
             if [[ -z ${3} ]]; then
-                printf "spinner is not running.."
+                # Spinner isn't running
                 exit 1
             fi
 
@@ -99,22 +99,22 @@ function _spinner() {
             fi
             ;;
         *)
-            printf "invalid argument, try {start/stop}"
+            # Invalid argument
             exit 1
             ;;
     esac
 }
 
 function start_spinner {
-    # $1 : msg to display
+    # $1 : Msg to display
     _spinner "start" "${1}" &
-    # set global spinner pid
+    # Set global spinner pid
     _sp_pid=$!
     disown
 }
 
 function stop_spinner {
-    # $1 : command exit status
+    # $1 : Command exit status
     _spinner "stop" $1 $_sp_pid
     unset _sp_pid
 }
