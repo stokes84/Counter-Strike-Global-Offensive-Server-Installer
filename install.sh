@@ -135,17 +135,17 @@ fi
 if [[ -f /etc/redhat-release ]]; then
 	if [[ $(uname -m) == *x86_64* ]]; then
 		yum -y update glibc.x86_64 libstdc++.x86_64
-		yum -y install glibc.i686 libstdc++.i686
+		yum -y install glibc.i686 libstdc++.i686 tar.x86_64
 	else
-		yum install -y glibc libstdc++
+		yum install -y glibc libstdc++ tar.i686
 	fi
 # If Ubuntu || Debian
 elif [[ -f /etc/lsb_release || -f /etc/debian_version ]]; then
 	if [[ $(uname -m) == *x86_64* ]]; then
 		apt-get -y update lib64gcc1
-		apt-get -y install lib32gcc1
+		apt-get -y install lib32gcc1 tar.x86_64
 	else
-		apt-get -y install lib32gcc1
+		apt-get -y install lib32gcc1 tar.i686
 	fi
 else
 	printf "Only CentOS, Fedora, Ubuntu, and Debian officially supported\n"
