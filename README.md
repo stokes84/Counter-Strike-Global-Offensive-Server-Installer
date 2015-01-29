@@ -54,13 +54,14 @@ Command Line Options
 + -usercon (enable rcon)
 + -strictportbind (prevent binding to next available port)
 + -ip
-+ -port
-+ +clientport
++ -port (default 27015)
++ +clientport (default: 27005)
++ -steamport
 + +tv_port
 + -tickrate
 + +map
 + +servercfgfile
-+ -maxplayers
++ -maxplayers_override
 + +mapgroup
 + +game_mode
 + +game_type
