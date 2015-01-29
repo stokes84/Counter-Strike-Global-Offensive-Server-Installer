@@ -186,7 +186,7 @@ start_spinner "${bold}Installing MetaMod${normal}"
 cd /home/$svc_acct/$game_folder/csgo
 wget -4 ${metamod_file}
 tar xfz mmsource*
-rm mmsource*
+rm -f mmsource*
 sed -i 's|addons/metamod/bin/server|../csgo/addons/metamod/bin/server|g' addons/metamod.vdf
 } &>> install.log
 
@@ -198,7 +198,7 @@ start_spinner "${bold}Installing SourceMod${normal}"
 # Install SourceMod
 wget -4 ${sourcemod_file} 
 tar xfz sourcemod*
-rm sourcemod*
+rm -f sourcemod*
 } &>> install.log
 
 stop_spinner $?
