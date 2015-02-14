@@ -41,7 +41,7 @@ sourcemod_file="http://www.sourcemod.net/smdrop/1.6/sourcemod-1.6.4-git4621-linu
 
 # Hide Cursor
 tput civis
-trap tput cnorm EXIT
+trap 'tput cnorm' EXIT
 
 # Styles
 bold=`tput bold`
