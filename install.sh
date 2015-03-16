@@ -211,7 +211,7 @@ stop_spinner $?
 start_spinner "${bold}Creating CSGO Launcher${normal}"
 
 {
-cat <<EOF > /home/$svc_acct/$game_folder/launch.sh
+cat <<'EOF' > /home/$svc_acct/$game_folder/launch.sh
 #!/bin/bash
 game_type=
 game_mode=
