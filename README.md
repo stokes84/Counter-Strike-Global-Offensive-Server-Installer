@@ -43,6 +43,10 @@ cd /home/steam/csgo
 ```
 ./srcds_run -game csgo
 ```
+or for interactive launcher
+```
+./launch.sh
+```
 
 <br><br>
 
