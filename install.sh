@@ -482,6 +482,7 @@ start_spinner "${bold}Performing Post-Install Tasks${normal}"
 {
 # Change ownership of everything to our service account
 chown -R $svc_acct:$svc_acct /home/$svc_acct
+chmod +x /home/$svc_acct/$game_folder/launch.sh
 } &> install.log
 
 stop_spinner $?
