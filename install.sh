@@ -39,9 +39,10 @@ steam_file="http://media.steampowered.com/installer/steamcmd_linux.tar.gz"
 metamod_file="http://www.metamodsource.net/mmsdrop/1.10/mmsource-1.10.5-git927-linux.tar.gz"
 sourcemod_file="http://www.sourcemod.net/smdrop/1.6/sourcemod-1.6.4-git4621-linux.tar.gz"
 
-# Hide Cursor
+# Hide Cursor & Clear Screen
 tput civis
 trap 'tput cnorm' EXIT
+tput clear
 
 # Styles
 bold=`tput bold`
