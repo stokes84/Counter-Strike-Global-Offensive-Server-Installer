@@ -207,6 +207,275 @@ rm -f sourcemod*
 
 stop_spinner $?
 
+start_spinner "${bold}Creating CSGO Launcher${normal}"
+
+{
+cat <<EOF > /home/$svc_acct/$game_folder/launch.sh
+#!/bin/bash
+game_type=
+game_mode=
+map_group=
+map=
+tickrate=
+maxplayers=
+wan_ip=$(wget -qO- http://ipecho.net/plain ; echo)
+port=
+
+while :
+do 
+	clear
+	cat<<-EOF
+	============================
+	Counter-Strike Server Setup
+	============================
+	Game Mode & Game Type
+
+	(1) Casual
+	(2) Competitive
+	(3) Arms Race
+	(4) Demolition
+	(5) Deathmatch
+	(q) Quit
+	
+	Press [Enter] to continue.
+	
+	------------------------------
+	EOF
+	while read; do
+		if (( "$REPLY" >= "1" )) && (( "$REPLY" <= "2" )); then
+			case $REPLY in
+			"1")  game_type="0" game_mode="0"	;;
+			"2")  game_type="0" game_mode="1"	;;
+			"3")  game_type="1" game_mode="0"	;;
+			"4")  game_type="1" game_mode="1"	;;
+			"5")  game_type="1" game_mode="2"	;;
+			esac
+			break
+		elif (( "$REPLY" == "q" )); then 
+			exit 1
+		else
+			echo "Invalid Option"
+		fi
+	done
+    sleep .5
+	
+	
+	clear
+	cat<<-EOF
+	============================
+	Counter-Strike Server Setup
+	============================
+	Map Group
+
+	(1) Active
+	(2) Reserves
+	(3) Bomb
+	(4) Hostage
+	(5) Demolition
+	(6) Arms Race
+	(6) Deathmatch
+	(7) Operation Vanguard
+	(q) Quit
+	
+	Press [Enter] to continue.
+	
+	------------------------------
+	EOF
+	while read; do
+		if (( "$REPLY" >= "1" )) && (( "$REPLY" <= "7" )); then
+			case $REPLY in
+			"1")  map_group="mg_active"	;;
+			"2")  map_group="mg_reserves"	;;
+			"3")  map_group="mg_bomb"	;;
+			"4")  map_group="mg_hostage"	;;
+			"5")  map_group="mg_demolition"	;;
+			"6")  map_group="mg_armsrace"	;;
+			"7")  map_group="mg_op_op05"	;;
+			esac
+			break
+		elif (( "$REPLY" == "q" )); then 
+			exit 1
+		else
+			echo "Invalid Option"
+		fi
+	done
+	sleep .5
+	
+	
+	clear
+	cat<<-EOF
+	============================
+	Counter-Strike Server Setup
+	============================
+	Map
+
+	(1)  de_dust2    (15) de_train      (29) ar_monastery
+	(2)  de_nuke     (16) cs_workout    (30) ar_shoots
+	(3)  de_mirage   (17) cs_backalley  (31) ar_lake
+	(4)  de_inferno  (18) de_marquis    (32) ar_stmarc
+	(5)  de_cbble    (19) de_facade     (33) ar_safehouse
+	(6)  de_overpass (20) de_season     (q)  Quit
+	(7)  de_cache    (21) de_bazaar
+	(8)  de_aztec    (22) de_bank
+	(9)  de_dust     (23) de_lake
+	(10) de_vertigo  (24) de_safehouse
+	(11) cs_office   (25) de_sugarcane
+	(12) cs_italy    (26) de_stmarc
+	(13) cs_assault  (27) de_shortdust
+	(14) cs_militia  (28) ar_baggage
+	
+	Press [Enter] to continue.
+	
+	------------------------------
+	EOF
+	while read; do
+		if (( "$REPLY" >= "1" )) && (( "$REPLY" <= "33" )); then
+			case $REPLY in
+			"1")   map="de_dust2"		;; "2")   map="de_nuke"			;; "3")   map="de_mirage"		;;
+			"4")   map="de_inferno"		;; "5")   map="de_cbble"		;; "6")   map="de_overpass"		;;
+			"7")   map="de_cache"		;; "8")   map="de_aztec"		;; "9")   map="de_dust"			;;
+			"10")  map="de_vertigo"		;; "11")  map="cs_office"		;; "12")  map="cs_italy"		;;
+			"13")  map="cs_assault"		;; "14")  map="cs_militia"		;; "15")  map="de_train"		;;
+			"16")  map="cs_workout"		;; "17")  map="cs_backalley"		;; "18")  map="de_marquis"		;;
+			"19")  map="de_facade"		;; "20")  map="de_season"		;; "21")  map="de_bazaar"		;;
+			"22")  map="de_bank"		;; "23")  map="de_lake"			;; "24")  map="de_safehouse"	;;
+			"25")  map="de_sugarcane"	;; "26")  map="de_stmarc"		;; "27")  map="de_shortdust"	;;
+			"28")  map="ar_baggage"		;; "29")  map="ar_monastery"		;; "30")  map="ar_shoots"		;;
+			"31")  map="ar_lake"		;; "32")  map="ar_stmarc"		;; "33")  map="ar_safehouse"	;;
+			esac
+			break
+		elif (( "$REPLY" == "q" )); then 
+			exit 1
+		else
+			echo "Invalid Option"
+		fi
+	done
+	sleep .5
+	
+	
+	clear
+	cat<<-EOF
+	============================
+	Counter-Strike Server Setup
+	============================
+	Tickrate
+
+	(1) 64 Tick
+	(2) 128 Tick
+	(q) Quit
+	
+	Press [Enter] to continue.
+	
+	------------------------------
+	EOF
+	while read; do
+		if [ $REPLY -ge 1 -a $REPLY -le 2 ]; then
+			case $REPLY in
+			"1")  tickrate="64"				;;
+			"2")  tickrate="128"			;;
+			esac
+			break
+		elif [ $REPLY == q ]; then 
+			exit 1
+		else
+			echo "Invalid Option"
+		fi
+	done
+	sleep .5
+	
+	
+	clear
+	cat<<-EOF
+	============================
+	Counter-Strike Server Setup
+	============================
+	Max Players
+
+	Minimum: 1
+	Maximum: 32
+	
+	Press [Enter] to continue.
+	
+	------------------------------
+	EOF
+	while read maxplayers; do
+		if [[ "$maxplayers" =~ ^[0-9]+$ ]] && [ "$maxplayers" -ge 1 -a "$maxplayers" -le 32 ]; then
+			break
+		else
+			echo "Invalid Option"
+		fi
+	done
+	sleep .5
+	
+	
+	
+	clear
+	cat<<-EOF
+	============================
+	Counter-Strike Server Setup
+	============================
+	IP Address
+
+	Default: 0.0.0.0
+	Your IP: ${wan_ip}
+	
+	Press [Enter] to continue.
+	
+	------------------------------
+	EOF
+	while read -i ${wan_ip} -e wan_ip; do
+		if [[ $wan_ip =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+			break
+		else
+			echo "Not a valid IP Address"
+		fi
+	done
+	sleep .5
+	
+	
+	
+	clear
+	cat<<-EOF
+	============================
+	Counter-Strike Server Setup
+	============================
+	Server Listen Port
+
+	Default: 27015
+	
+	Press [Enter] to continue.
+	
+	------------------------------
+	EOF
+	while read -i "27015" -e port; do
+		if [[ $port =~ ^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$ ]]; then
+			break;
+		else
+			printf "Not a valid port number"
+		fi
+	done
+	sleep .5
+	
+	break
+
+done
+
+printf "Game Type: ${game_type}\n"
+printf "Game Mode: ${game_mode}\n"
+printf "Map Group: ${map_group}\n"
+printf "Map: ${map}\n"
+printf "Tickrate: ${tickrate}\n"
+printf "Max Players: ${maxplayers}\n"
+printf "IP: ${wan_ip}\n"
+printf "Port: ${port}\n"
+
+./srcds_run -game csgo -usercon -strictportbind +game_mode ${game_mode} +game_type ${game_type} +mapgroup ${map_group} +map ${map} -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port}
+
+EOF
+}
+
+stop_spinner $?
+
 start_spinner "${bold}Performing Post-Install Tasks${normal}"
 
 {
