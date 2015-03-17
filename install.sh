@@ -1,5 +1,5 @@
 #!/bin/bash
-# Last Updated - 1/10/15
+# Last Updated - 3/16/15
 # Chris Stokes - https://github.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer
 ################################################
 # CentOS / Fedora -- Step 1		       #
