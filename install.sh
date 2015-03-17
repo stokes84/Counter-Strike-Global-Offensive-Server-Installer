@@ -208,12 +208,13 @@ rm -f sourcemod*
 
 stop_spinner $?
 
+tput sc; tput cnorm;
 tput rc; tput el
-read -e -p "Serer Name: " server_name
+read -e -p "${bold}Server Name: ${normal}" server_name
 tput rc; tput el
-read -e -p "RCON Password: " rcon_password
+read -e -p "${bold}RCON Password: ${normal}" rcon_password
 tput rc; tput el
-read -e -p "Server Password (blank = not required): " server_password
+read -e -p "${bold}Server Password (blank = not required): ${normal}" server_password
 tput rc; tput el; tput civis
 
 start_spinner "${bold}Creating CSGO Launcher${normal}"
