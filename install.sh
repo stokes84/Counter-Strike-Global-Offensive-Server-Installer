@@ -500,19 +500,30 @@ do
 
 done
 
-printf "Game Type: ${game_type}\n"
+printf "\nGame Type: ${game_type}\n"
 printf "Game Mode: ${game_mode}\n"
 printf "Map Group: ${map_group}\n"
 printf "Map: ${map}\n"
 printf "Tickrate: ${tickrate}\n"
 printf "Max Players: ${maxplayers}\n"
 printf "IP: ${wan_ip}\n"
-printf "Port: ${port}\n"
+printf "Port: ${port}\n\n"
 
-./srcds_run -game csgo -usercon -strictportbind +game_mode ${game_mode} +game_type ${game_type} +mapgroup ${map_group} +map ${map} -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg}
+if [[ $servercfg == "practice.cfg" ]]; then
+	if [[ -a /home/steam/csgo/csgo/cfg/gamemode_competitive.cfg ]]; then
+		mv /home/steam/csgo/csgo/cfg/gamemode_competitive.cfg /home/steam/csgo/csgo/cfg/gamemode_competitive.bak
+	fi
+	./srcds_run -game csgo -usercon -strictportbind +game_mode 1 +game_type 0 +mapgroup ${map_group} +map ${map} -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg}
+elif [[ $servercfg == "server.cfg" ]]; then
+	if [[ -a /home/steam/csgo/csgo/cfg/gamemode_competitive.bak ]]; then
+		mv /home/steam/csgo/csgo/cfg/gamemode_competitive.bak /home/steam/csgo/csgo/cfg/gamemode_competitive.cfg
+	fi
+	./srcds_run -game csgo -usercon -strictportbind +game_mode ${game_mode} +game_type ${game_type} +mapgroup ${map_group} +map ${map} -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg}
+fi
+
 EOF
 
-cat <<'EOF' > /home/$svc_acct/$game_folder/csgo/cfg/practice.cfg
+cat <<EOF > /home/$svc_acct/$game_folder/csgo/cfg/practice.cfg
 
 //GAME: Counter-Strike: Source 
 //TYPE: Practice Server Config 
@@ -638,7 +649,7 @@ writeip
 
 EOF
 
-cat <<'EOF' > /home/$svc_acct/$game_folder/csgo/cfg/server.cfg
+cat <<EOF > /home/$svc_acct/$game_folder/csgo/cfg/server.cfg
 
 //GAME: Counter-Strike: Source 
 //TYPE: Regular Server Config 
