@@ -205,8 +205,27 @@ wget -4 ${sourcemod_file}
 tar xfz sourcemod*
 rm -f sourcemod*
 
-# Download Naid Tails For Practice Mode @ https://forums.alliedmods.net/showthread.php?t=240668
-wget --no-check-certificate https://googledrive.com/host/0B53_UHGqg56QUjZXX0ZwODBoYWc -O /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.disabled
+# Download Naid Tails Plugin For Practice Mode @ https://forums.alliedmods.net/showthread.php?t=240668
+wget --no-check-certificate https://googledrive.com/host/0B53_UHGqg56QUjZXX0ZwODBoYWc -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/NadeTails.disabled
+
+# Download Retakes Plugin As Server Option @ https://forums.alliedmods.net/showthread.php?t=251829
+wget --no-check-certificate https://googledrive.com/host/0B53_UHGqg56QUkJCVTk5ZFRJQWM -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/retakes.smx
+wget --no-check-certificate https://googledrive.com/host/0B53_UHGqg56QTFpsRTUtSTV2cW8 -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/scripting/retakes.sp
+sed -i '$ d' /home/$svc_acct/$game_folder/csgo/addons/sourcemod/configs/databases.cfg
+cat <<'EOF' >> /home/$svc_acct/$game_folder/csgo/addons/sourcemod/configs/databases.cfg
+    {
+        "driver"            "sqlite"
+        "host"              "localhost"
+        "database"          "retakes-sqlite"
+        "user"              "root"
+        "pass"              ""
+    }
+}
+EOF
+wget --no-check-certificate https://googledrive.com/host/0B53_UHGqg56QM09YS3R4dzdxY0E -O /home/$svc_acct/$game_folder/csgo/cfg/sourcemod/retakes.cfg
+wget --no-check-certificate https://googledrive.com/host/0B53_UHGqg56QQWFzaVBtNEU0NlU -O /home/$svc_acct/$game_folder/csgo/cfg/sourcemod/retakes_live.cfg
+wget --no-check-certificate https://googledrive.com/host/0B53_UHGqg56QeDVDbDBIdmZZWEU -O /home/$svc_acct/$game_folder/csgo/cfg/sourcemod/retakes_warmup.cfg
+wget --no-check-certificate https://googledrive.com/host/0B53_UHGqg56QNVVVZS1xaHBqb00 -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/data/sqlite/retakes-sqlite.sq3
 } &>> install.log
 
 stop_spinner $?
@@ -233,6 +252,7 @@ tickrate=
 maxplayers=
 wan_ip=$(wget -qO- http://ipecho.net/plain ; echo)
 port=
+retakes=
 
 while :
 do 
@@ -476,8 +496,9 @@ do
 	============================
 	Server Type
 
-	(1) Practice Server
-	(2) Regular
+	(1) Standard
+	(2) Practice Mode
+	(3) Retakes Server
 	(q) Quit
 	
 	Press [Enter] to continue.
@@ -487,8 +508,9 @@ do
 	while read; do
 		if [ $REPLY -ge 1 -a $REPLY -le 2 ]; then
 			case $REPLY in
-			"1")  servercfg=practice.cfg	;;
-			"2")  servercfg=server.cfg	;;
+			"1")  servercfg="server.cfg"		;;
+			"2")  servercfg="practice.cfg"		;;
+			"2")  servercfg="server.cfg" retakes=1	;;
 			esac
 			break
 		elif [ $REPLY == q ]; then 
@@ -515,30 +537,41 @@ printf "Port: ${port}\n\n"
 if [[ $servercfg == "practice.cfg" ]]; then
 
 	# Disable Default Comp Mode Server Configs For Practice Mode
-	if [[ -a /home/steam/csgo/csgo/cfg/gamemode_competitive.cfg ]]; then
-		mv /home/steam/csgo/csgo/cfg/gamemode_competitive.cfg /home/steam/csgo/csgo/cfg/gamemode_competitive.bak
+	if [[ -a /home/$svc_acct/$game_folder/csgo/cfg/gamemode_competitive.cfg ]]; then
+		mv /home/$svc_acct/$game_folder/csgo/cfg/gamemode_competitive.cfg /home/$svc_acct/$game_folder/csgo/cfg/gamemode_competitive.bak
 	fi
 	
 	# Enable Nade Tails For Practice Mode
-	if [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.disabled ]]; then
-		mv /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.disabled /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.smx
+	if [[ -a /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/NadeTails.disabled ]]; then
+		mv /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/NadeTails.disabled /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/NadeTails.smx
 	fi
 	
 	./srcds_run -game csgo -usercon -strictportbind +game_mode 1 +game_type 0 +mapgroup ${map_group} +map ${map} -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg}
 	
 	elif [[ $servercfg == "server.cfg" ]]; then
 
-	# Enable Default Comp Mode Config For Standard Play
-	if [[ -a /home/steam/csgo/csgo/cfg/gamemode_competitive.bak ]]; then
-		mv /home/steam/csgo/csgo/cfg/gamemode_competitive.bak /home/steam/csgo/csgo/cfg/gamemode_competitive.cfg
+	# Enable Default Comp Mode Config For Standard Servers
+	if [[ -a /home/$svc_acct/$game_folder/csgo/cfg/gamemode_competitive.bak ]]; then
+		mv /home/$svc_acct/$game_folder/csgo/cfg/gamemode_competitive.bak /home/$svc_acct/$game_folder/csgo/cfg/gamemode_competitive.cfg
 	fi
 	
-	# Disable Nade Tails For Regular Servers
-	if [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.smx ]]; then
-		mv /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.smx /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.disabled
+	# Disable Nade Tails For Standard Servers
+	if [[ -a /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/NadeTails.smx ]]; then
+		mv /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/NadeTails.smx /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/NadeTails.disabled
+	fi
+
+	# If Retakes Server Selected Activate Retakes
+	if [[ $retakes == "1" ]] && [[ -a /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/retakes.disable  ]]; then
+		mv /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/retakes.disable /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/retakes.smx
+	fi
+	
+	# If Retakes Server Not Selected Make Sure It's Disabled
+	if [[ $retakes != "1" ]] && [[ -a /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/retakes.smx  ]]; then
+		mv /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/retakes.smx /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/retakes.disable
 	fi
 	
 	./srcds_run -game csgo -usercon -strictportbind +game_mode ${game_mode} +game_type ${game_type} +mapgroup ${map_group} +map ${map} -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg}
+	
 fi
 
 EOF
