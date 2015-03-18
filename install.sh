@@ -204,6 +204,9 @@ start_spinner "${bold}Installing SourceMod${normal}"
 wget -4 ${sourcemod_file} 
 tar xfz sourcemod*
 rm -f sourcemod*
+
+# Download Naid Tails For Practice Mode @ https://forums.alliedmods.net/showthread.php?t=240668
+wget --no-check-certificate https://googledrive.com/host/0B53_UHGqg56QUjZXX0ZwODBoYWc -O /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.disabled
 } &>> install.log
 
 stop_spinner $?
@@ -510,14 +513,31 @@ printf "IP: ${wan_ip}\n"
 printf "Port: ${port}\n\n"
 
 if [[ $servercfg == "practice.cfg" ]]; then
+
+	# Disable Default Comp Mode Server Configs For Practice Mode
 	if [[ -a /home/steam/csgo/csgo/cfg/gamemode_competitive.cfg ]]; then
 		mv /home/steam/csgo/csgo/cfg/gamemode_competitive.cfg /home/steam/csgo/csgo/cfg/gamemode_competitive.bak
 	fi
+	
+	# Enable Nade Tails For Practice Mode
+	if [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.disabled ]]; then
+		mv /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.disabled /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.smx
+	fi
+	
 	./srcds_run -game csgo -usercon -strictportbind +game_mode 1 +game_type 0 +mapgroup ${map_group} +map ${map} -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg}
-elif [[ $servercfg == "server.cfg" ]]; then
+	
+	elif [[ $servercfg == "server.cfg" ]]; then
+
+	# Enable Default Comp Mode Config For Standard Play
 	if [[ -a /home/steam/csgo/csgo/cfg/gamemode_competitive.bak ]]; then
 		mv /home/steam/csgo/csgo/cfg/gamemode_competitive.bak /home/steam/csgo/csgo/cfg/gamemode_competitive.cfg
 	fi
+	
+	# Disable Nade Tails For Regular Servers
+	if [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.smx ]]; then
+		mv /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.smx /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.disabled
+	fi
+	
 	./srcds_run -game csgo -usercon -strictportbind +game_mode ${game_mode} +game_type ${game_type} +mapgroup ${map_group} +map ${map} -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg}
 fi
 
