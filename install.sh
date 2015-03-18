@@ -225,6 +225,7 @@ EOF
 wget --no-check-certificate https://googledrive.com/host/0B53_UHGqg56QM09YS3R4dzdxY0E -O /home/$svc_acct/$game_folder/csgo/cfg/sourcemod/retakes.cfg
 wget --no-check-certificate https://googledrive.com/host/0B53_UHGqg56QQWFzaVBtNEU0NlU -O /home/$svc_acct/$game_folder/csgo/cfg/sourcemod/retakes_live.cfg
 wget --no-check-certificate https://googledrive.com/host/0B53_UHGqg56QeDVDbDBIdmZZWEU -O /home/$svc_acct/$game_folder/csgo/cfg/sourcemod/retakes_warmup.cfg
+mkdir /home/$svc_acct/$game_folder/csgo/addons/sourcemod/data/sqlite
 wget --no-check-certificate https://googledrive.com/host/0B53_UHGqg56QNVVVZS1xaHBqb00 -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/data/sqlite/retakes-sqlite.sq3
 } &>> install.log
 
