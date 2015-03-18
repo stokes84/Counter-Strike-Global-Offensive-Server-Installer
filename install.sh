@@ -272,7 +272,7 @@ do
 	
 	Press [Enter] to continue.
 	
-	------------------------------
+	-----------------------------
 	EOF
 	while read; do
 		if (( "$REPLY" >= "1" )) && (( "$REPLY" <= "2" )); then
@@ -312,7 +312,7 @@ do
 	
 	Press [Enter] to continue.
 	
-	------------------------------
+	-----------------------------
 	EOF
 	while read; do
 		if (( "$REPLY" >= "1" )) && (( "$REPLY" <= "7" )); then
@@ -359,7 +359,7 @@ do
 	
 	Press [Enter] to continue.
 	
-	------------------------------
+	-----------------------------
 	EOF
 	while read; do
 		if (( "$REPLY" >= "1" )) && (( "$REPLY" <= "33" )); then
@@ -399,7 +399,7 @@ do
 	
 	Press [Enter] to continue.
 	
-	------------------------------
+	-----------------------------
 	EOF
 	while read; do
 		if [ $REPLY -ge 1 -a $REPLY -le 2 ]; then
@@ -429,7 +429,7 @@ do
 	
 	Press [Enter] to continue.
 	
-	------------------------------
+	-----------------------------
 	EOF
 	while read maxplayers; do
 		if [[ "$maxplayers" =~ ^[0-9]+$ ]] && [ "$maxplayers" -ge 1 -a "$maxplayers" -le 32 ]; then
@@ -454,7 +454,7 @@ do
 	
 	Press [Enter] to continue.
 	
-	------------------------------
+	-----------------------------
 	EOF
 	while read -i ${wan_ip} -e wan_ip; do
 		if [[ $wan_ip =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
@@ -478,7 +478,7 @@ do
 	
 	Press [Enter] to continue.
 	
-	------------------------------
+	-----------------------------
 	EOF
 	while read -i "27015" -e port; do
 		if [[ $port =~ ^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$ ]]; then
@@ -503,7 +503,7 @@ do
 	
 	Press [Enter] to continue.
 	
-	------------------------------
+	-----------------------------
 	EOF
 	while read; do
 		if [ $REPLY -ge 1 -a $REPLY -le 2 ]; then
@@ -563,14 +563,14 @@ if [[ $servercfg == "practice.cfg" ]]; then
 	# If Retakes Server Selected Activate Retakes
 	if [[ $retakes == "1" ]] && [[ -a /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/retakes.disable  ]]; then
 		mv /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/retakes.disable /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/retakes.smx
+		./srcds_run -game csgo -usercon -strictportbind +game_mode 1 +game_type 0 +mapgroup ${map_group} +map ${map} -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg}
 	fi
 	
 	# If Retakes Server Not Selected Make Sure It's Disabled
 	if [[ $retakes != "1" ]] && [[ -a /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/retakes.smx  ]]; then
 		mv /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/retakes.smx /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/retakes.disable
+		./srcds_run -game csgo -usercon -strictportbind +game_mode ${game_mode} +game_type ${game_type} +mapgroup ${map_group} +map ${map} -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg}
 	fi
-	
-	./srcds_run -game csgo -usercon -strictportbind +game_mode ${game_mode} +game_type ${game_type} +mapgroup ${map_group} +map ${map} -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg}
 	
 fi
 
