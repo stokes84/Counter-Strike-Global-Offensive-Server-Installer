@@ -538,18 +538,18 @@ printf "Port: ${port}\n\n"
 if [[ $servercfg == "practice.cfg" ]]; then
 
 	# Disable Default Comp Mode Server Configs For Practice Mode
-	if [[ -a /home/${svc_acct}/${game_folder}/csgo/cfg/gamemode_competitive.cfg ]]; then
-		mv /home/${svc_acct}/${game_folder}/csgo/cfg/gamemode_competitive.cfg /home/${svc_acct}/${game_folder}/csgo/cfg/gamemode_competitive.bak
+	if [[ -a /home/steam/csgo/csgo/cfg/gamemode_competitive.cfg ]]; then
+		mv /home/steam/csgo/csgo/cfg/gamemode_competitive.cfg /home/steam/csgo/csgo/cfg/gamemode_competitive.bak
 	fi
 	
 	# Enable Nade Tails For Practice Mode
-	if [[ -a /home/${svc_acct}/${game_folder}/csgo/addons/sourcemod/plugins/NadeTails.disabled ]]; then
-		mv /home/${svc_acct}/${game_folder}/csgo/addons/sourcemod/plugins/NadeTails.disabled /home/${svc_acct}/${game_folder}/csgo/addons/sourcemod/plugins/NadeTails.smx
+	if [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.disabled ]]; then
+		mv /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.disabled /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.smx
 	fi
 	
 	# If Retakes Server Plugin Active Disable It
-	if [[ -a /home/${svc_acct}/${game_folder}/csgo/addons/sourcemod/plugins/retakes.smx  ]]; then
-		mv /home/${svc_acct}/${game_folder}/csgo/addons/sourcemod/plugins/retakes.smx /home/${svc_acct}/${game_folder}/csgo/addons/sourcemod/plugins/retakes.disable
+	if [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.smx  ]]; then
+		mv /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.smx /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.disable
 	fi
 	
 	./srcds_run -game csgo -usercon -strictportbind +game_mode 1 +game_type 0 +mapgroup ${map_group} +map ${map} -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg}
@@ -559,24 +559,24 @@ fi
 elif [[ $servercfg == "server.cfg" ]]; then
 
 	# Enable Default Comp Mode Config For Standard Servers
-	if [[ -a /home/${svc_acct}/${game_folder}/csgo/cfg/gamemode_competitive.bak ]]; then
-		mv /home/${svc_acct}/${game_folder}/csgo/cfg/gamemode_competitive.bak /home/${svc_acct}/${game_folder}/csgo/cfg/gamemode_competitive.cfg
+	if [[ -a /home/steam/csgo/csgo/cfg/gamemode_competitive.bak ]]; then
+		mv /home/steam/csgo/csgo/cfg/gamemode_competitive.bak /home/steam/csgo/csgo/cfg/gamemode_competitive.cfg
 	fi
 	
 	# Disable Nade Tails For Standard Servers
-	if [[ -a /home/${svc_acct}/${game_folder}/csgo/addons/sourcemod/plugins/NadeTails.smx ]]; then
-		mv /home/${svc_acct}/${game_folder}/csgo/addons/sourcemod/plugins/NadeTails.smx /home/${svc_acct}/${game_folder}/csgo/addons/sourcemod/plugins/NadeTails.disabled
+	if [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.smx ]]; then
+		mv /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.smx /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.disabled
 	fi
 
 	# If Retakes Server Selected Activate Retakes
-	if [[ $retakes == "1" ]] && [[ -a /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/retakes.disable  ]]; then
-		mv /home/${svc_acct}/${game_folder}/csgo/addons/sourcemod/plugins/retakes.disable /home/${svc_acct}/${game_folder}/csgo/addons/sourcemod/plugins/retakes.smx
+	if [[ $retakes == "1" ]] && [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.disable  ]]; then
+		mv /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.disable /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.smx
 		./srcds_run -game csgo -usercon -strictportbind +game_mode 1 +game_type 0 +mapgroup ${map_group} +map ${map} -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg}
 	fi
 	
 	# If Retakes Server Not Selected Make Sure It's Disabled
-	if [[ $retakes != "1" ]] && [[ -a /home/${svc_acct}/${game_folder}/csgo/addons/sourcemod/plugins/retakes.smx  ]]; then
-		mv /home/${svc_acct}/${game_folder}/csgo/addons/sourcemod/plugins/retakes.smx /home/${svc_acct}/${game_folder}/csgo/addons/sourcemod/plugins/retakes.disable
+	if [[ $retakes != "1" ]] && [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.smx  ]]; then
+		mv /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.smx /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.disable
 		./srcds_run -game csgo -usercon -strictportbind +game_mode ${game_mode} +game_type ${game_type} +mapgroup ${map_group} +map ${map} -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg}
 	fi
 fi
