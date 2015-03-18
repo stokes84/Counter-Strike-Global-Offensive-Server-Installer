@@ -209,7 +209,7 @@ rm -f sourcemod*
 wget --no-check-certificate https://googledrive.com/host/0B53_UHGqg56QUjZXX0ZwODBoYWc -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/NadeTails.disabled
 
 # Download Retakes Plugin As Server Option @ https://forums.alliedmods.net/showthread.php?t=251829
-wget --no-check-certificate https://googledrive.com/host/0B53_UHGqg56QUkJCVTk5ZFRJQWM -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/retakes.smx
+wget --no-check-certificate https://googledrive.com/host/0B53_UHGqg56QUkJCVTk5ZFRJQWM -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/retakes.disabled
 wget --no-check-certificate https://googledrive.com/host/0B53_UHGqg56QTFpsRTUtSTV2cW8 -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/scripting/retakes.sp
 sed -i '$ d' /home/$svc_acct/$game_folder/csgo/addons/sourcemod/configs/databases.cfg
 cat <<'EOF' >> /home/$svc_acct/$game_folder/csgo/addons/sourcemod/configs/databases.cfg
@@ -547,9 +547,16 @@ if [[ $servercfg == "practice.cfg" ]]; then
 		mv /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/NadeTails.disabled /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/NadeTails.smx
 	fi
 	
-	./srcds_run -game csgo -usercon -strictportbind +game_mode 1 +game_type 0 +mapgroup ${map_group} +map ${map} -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg}
+	# If Retakes Server Plugin Active Disable It
+	if [[ -a /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/retakes.smx  ]]; then
+		mv /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/retakes.smx /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/retakes.disable
+	fi
 	
-	elif [[ $servercfg == "server.cfg" ]]; then
+	./srcds_run -game csgo -usercon -strictportbind +game_mode ${game_mode} +game_type ${game_type} +mapgroup ${map_group} +map ${map} -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg}
+	
+fi
+	
+elif [[ $servercfg == "server.cfg" ]]; then
 
 	# Enable Default Comp Mode Config For Standard Servers
 	if [[ -a /home/$svc_acct/$game_folder/csgo/cfg/gamemode_competitive.bak ]]; then
@@ -572,9 +579,7 @@ if [[ $servercfg == "practice.cfg" ]]; then
 		mv /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/retakes.smx /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/retakes.disable
 		./srcds_run -game csgo -usercon -strictportbind +game_mode ${game_mode} +game_type ${game_type} +mapgroup ${map_group} +map ${map} -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg}
 	fi
-	
 fi
-
 EOF
 
 cat <<EOF > /home/$svc_acct/$game_folder/csgo/cfg/practice.cfg
