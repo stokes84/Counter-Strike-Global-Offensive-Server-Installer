@@ -54,11 +54,14 @@ Usage
 su steam
 ```
 ```
-/home/steam/csgo/srcds_run -game csgo +Command_Line_Options
+cd /home/steam/csgo
+```
+```
+./srcds_run -game csgo +Command_Line_Options
 ```
 For interactive launcher (Practice Mode, Retakes, or Server Option Selectors)
 ```
-/home/steam/csgo/launch.sh
+./launch.sh
 ```
 
 <br><br>
