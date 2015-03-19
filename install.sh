@@ -257,18 +257,17 @@ retakes=
 
 while :
 do 
+
 	clear
 	cat<<-EOF
 	============================
 	Counter-Strike Server Setup
 	============================
-	Game Mode & Game Type
+	Server Type
 
-	(1) Casual
-	(2) Competitive
-	(3) Arms Race
-	(4) Demolition
-	(5) Deathmatch
+	(1) Standard
+	(2) Practice Mode
+	(3) Retakes Server
 	(q) Quit
 	
 	Press [Enter] to continue.
@@ -276,58 +275,14 @@ do
 	-----------------------------
 	EOF
 	while read; do
-		if (( "$REPLY" >= "1" )) && (( "$REPLY" <= "2" )); then
+		if [ $REPLY -ge 1 -a $REPLY -le 3 ]; then
 			case $REPLY in
-			"1")  game_type="0" game_mode="0"	;;
-			"2")  game_type="0" game_mode="1"	;;
-			"3")  game_type="1" game_mode="0"	;;
-			"4")  game_type="1" game_mode="1"	;;
-			"5")  game_type="1" game_mode="2"	;;
+			"1")  servercfg="server.cfg" 	server=standard	;;
+			"2")  servercfg="practice.cfg" 	server=practice	;;
+			"3")  servercfg="server.cfg" 	server=retakes	;;
 			esac
 			break
-		elif (( "$REPLY" == "q" )); then 
-			exit 1
-		else
-			echo "Invalid Option"
-		fi
-	done
-    sleep .5
-	
-	
-	clear
-	cat<<-EOF
-	============================
-	Counter-Strike Server Setup
-	============================
-	Map Group
-
-	(1) Active
-	(2) Reserves
-	(3) Bomb
-	(4) Hostage
-	(5) Demolition
-	(6) Arms Race
-	(6) Deathmatch
-	(7) Operation Vanguard
-	(q) Quit
-	
-	Press [Enter] to continue.
-	
-	-----------------------------
-	EOF
-	while read; do
-		if (( "$REPLY" >= "1" )) && (( "$REPLY" <= "7" )); then
-			case $REPLY in
-			"1")  map_group="mg_active"	;;
-			"2")  map_group="mg_reserves"	;;
-			"3")  map_group="mg_bomb"	;;
-			"4")  map_group="mg_hostage"	;;
-			"5")  map_group="mg_demolition"	;;
-			"6")  map_group="mg_armsrace"	;;
-			"7")  map_group="mg_op_op05"	;;
-			esac
-			break
-		elif (( "$REPLY" == "q" )); then 
+		elif [ $REPLY == q ]; then 
 			exit 1
 		else
 			echo "Invalid Option"
@@ -335,6 +290,47 @@ do
 	done
 	sleep .5
 	
+	
+	if [[ $server == "standard" ]]; then
+	
+		clear
+		cat<<-EOF
+		============================
+		Counter-Strike Server Setup
+		============================
+		Game Mode & Game Type
+
+		(1) Casual
+		(2) Competitive
+		(3) Arms Race
+		(4) Demolition
+		(5) Deathmatch
+		(q) Quit
+	
+		Press [Enter] to continue.
+	
+		-----------------------------
+		EOF
+		while read; do
+			if (( "$REPLY" >= "1" )) && (( "$REPLY" <= "2" )); then
+				case $REPLY in
+				"1")  game_type="0" game_mode="0"	;;
+				"2")  game_type="0" game_mode="1"	;;
+				"3")  game_type="1" game_mode="0"	;;
+				"4")  game_type="1" game_mode="1"	;;
+				"5")  game_type="1" game_mode="2"	;;
+				esac
+				break
+			elif (( "$REPLY" == "q" )); then 
+				exit 1
+			else
+				echo "Invalid Option"
+			fi
+		done
+    		sleep .5
+    		
+    	fi
+
 	
 	clear
 	cat<<-EOF
@@ -376,6 +372,48 @@ do
 			"25")  map="de_sugarcane"	;; "26")  map="de_stmarc"		;; "27")  map="de_shortdust"	;;
 			"28")  map="ar_baggage"		;; "29")  map="ar_monastery"		;; "30")  map="ar_shoots"		;;
 			"31")  map="ar_lake"		;; "32")  map="ar_stmarc"		;; "33")  map="ar_safehouse"	;;
+			esac
+			break
+		elif (( "$REPLY" == "q" )); then 
+			exit 1
+		else
+			echo "Invalid Option"
+		fi
+	done
+	sleep .5
+	
+	
+	clear
+	cat<<-EOF
+	============================
+	Counter-Strike Server Setup
+	============================
+	Map Group
+
+	(1) Active
+	(2) Reserves
+	(3) Bomb
+	(4) Hostage
+	(5) Demolition
+	(6) Arms Race
+	(6) Deathmatch
+	(7) Operation Vanguard
+	(q) Quit
+	
+	Press [Enter] to continue.
+	
+	-----------------------------
+	EOF
+	while read; do
+		if (( "$REPLY" >= "1" )) && (( "$REPLY" <= "7" )); then
+			case $REPLY in
+			"1")  map_group="mg_active"	;;
+			"2")  map_group="mg_reserves"	;;
+			"3")  map_group="mg_bomb"	;;
+			"4")  map_group="mg_hostage"	;;
+			"5")  map_group="mg_demolition"	;;
+			"6")  map_group="mg_armsrace"	;;
+			"7")  map_group="mg_op_op05"	;;
 			esac
 			break
 		elif (( "$REPLY" == "q" )); then 
@@ -442,7 +480,6 @@ do
 	sleep .5
 	
 	
-	
 	clear
 	cat<<-EOF
 	============================
@@ -467,7 +504,6 @@ do
 	sleep .5
 	
 	
-	
 	clear
 	cat<<-EOF
 	============================
@@ -490,95 +526,55 @@ do
 	done
 	sleep .5
 	
-	clear
-	cat<<-EOF
-	============================
-	Counter-Strike Server Setup
-	============================
-	Server Type
-
-	(1) Standard
-	(2) Practice Mode
-	(3) Retakes Server
-	(q) Quit
-	
-	Press [Enter] to continue.
-	
-	-----------------------------
-	EOF
-	while read; do
-		if [ $REPLY -ge 1 -a $REPLY -le 3 ]; then
-			case $REPLY in
-			"1")  servercfg="server.cfg"		;;
-			"2")  servercfg="practice.cfg"		;;
-			"3")  servercfg="server.cfg" retakes=1	;;
-			esac
-			break
-		elif [ $REPLY == q ]; then 
-			exit 1
-		else
-			echo "Invalid Option"
-		fi
-	done
-	sleep .5
-	
 	break
 
 done
 
-printf "\nGame Type: ${game_type}\n"
-printf "Game Mode: ${game_mode}\n"
-printf "Map Group: ${map_group}\n"
-printf "Map: ${map}\n"
-printf "Tickrate: ${tickrate}\n"
-printf "Max Players: ${maxplayers}\n"
-printf "IP: ${wan_ip}\n"
-printf "Port: ${port}\n\n"
+# Reset Default Comp Config
+if [[ -a /home/steam/csgo/csgo/cfg/gamemode_competitive.cfg ]]; then
+	mv /home/steam/csgo/csgo/cfg/gamemode_competitive.cfg /home/steam/csgo/csgo/cfg/gamemode_competitive.bak
+fi
 
-if [[ $servercfg == "practice.cfg" ]]; then
+# Reset Retakes
+if [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.smx  ]]; then
+	mv /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.smx /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.disable
+fi
 
-	# Disable Default Comp Mode Server Configs For Practice Mode
-	if [[ -a /home/steam/csgo/csgo/cfg/gamemode_competitive.cfg ]]; then
-		mv /home/steam/csgo/csgo/cfg/gamemode_competitive.cfg /home/steam/csgo/csgo/cfg/gamemode_competitive.bak
+# Reset Nade Tails
+if [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.smx ]]; then
+	mv /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.smx /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.disabled
+fi
+
+if [[ $server == "standard" ]]; then
+	
+	# Enable Default Comp Mode Config For Standard Servers
+	if [[ -a /home/steam/csgo/csgo/cfg/gamemode_competitive.bak ]]; then
+		mv /home/steam/csgo/csgo/cfg/gamemode_competitive.bak /home/steam/csgo/csgo/cfg/gamemode_competitive.cfg
 	fi
 	
-	# Enable Nade Tails For Practice Mode
+	./srcds_run -game csgo -usercon -strictportbind +game_mode ${game_mode} +game_type ${game_type} +mapgroup ${map_group} +map ${map} -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg}
+	
+fi
+
+if [[ $server == "practice" ]]; then
+
+	# Enable Nade Tails Plugin
 	if [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.disabled ]]; then
 		mv /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.disabled /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.smx
-	fi
-	
-	# If Retakes Server Plugin Active Disable It
-	if [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.smx  ]]; then
-		mv /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.smx /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.disable
 	fi
 	
 	./srcds_run -game csgo -usercon -strictportbind +game_mode 1 +game_type 0 +mapgroup ${map_group} +map ${map} -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg}
 	
 fi
 	
-elif [[ $servercfg == "server.cfg" ]]; then
+elif [[ $server == "retakes" ]]; then
 
-	# Enable Default Comp Mode Config For Standard Servers
-	if [[ -a /home/steam/csgo/csgo/cfg/gamemode_competitive.bak ]]; then
-		mv /home/steam/csgo/csgo/cfg/gamemode_competitive.bak /home/steam/csgo/csgo/cfg/gamemode_competitive.cfg
-	fi
-	
-	# Disable Nade Tails For Standard Servers
-	if [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.smx ]]; then
-		mv /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.smx /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.disabled
-	fi
-
-	# If Retakes Server Selected Activate Retakes
-	if [[ $retakes == "1" ]] && [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.disable  ]]; then
+	# Enable Retakes Plugins
+	if [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.disable  ]]; then
 		mv /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.disable /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.smx
 		./srcds_run -game csgo -usercon -strictportbind +game_mode 1 +game_type 0 +mapgroup ${map_group} +map ${map} -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg}
 	fi
 	
-	# If Retakes Server Not Selected Make Sure It's Disabled
-	if [[ $retakes != "1" ]] && [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.smx  ]]; then
-		mv /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.smx /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.disable
-		./srcds_run -game csgo -usercon -strictportbind +game_mode ${game_mode} +game_type ${game_type} +mapgroup ${map_group} +map ${map} -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg}
-	fi
 fi
 EOF
 
