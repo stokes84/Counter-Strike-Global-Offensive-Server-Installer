@@ -43,7 +43,7 @@ Install
 su root
 ```
 ```
-wget https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/install.sh; bash install.sh; rm -f install.sh
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/install.sh; bash install.sh; rm -f install.sh
 ```
 
 <br><br>
