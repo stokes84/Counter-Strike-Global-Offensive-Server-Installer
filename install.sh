@@ -339,39 +339,33 @@ do
 	============================
 	Map
 
-	(1)  de_dust2    (15) de_train      (29) ar_monastery
-	(2)  de_nuke     (16) cs_workout    (30) ar_shoots
-	(3)  de_mirage   (17) cs_backalley  (31) ar_lake
-	(4)  de_inferno  (18) de_marquis    (32) ar_stmarc
-	(5)  de_cbble    (19) de_facade     (33) ar_safehouse
-	(6)  de_overpass (20) de_season     (q)  Quit
-	(7)  de_cache    (21) de_bazaar
-	(8)  de_aztec    (22) de_bank
-	(9)  de_dust     (23) de_lake
-	(10) de_vertigo  (24) de_safehouse
-	(11) cs_office   (25) de_sugarcane
-	(12) cs_italy    (26) de_stmarc
-	(13) cs_assault  (27) de_shortdust
-	(14) cs_militia  (28) ar_baggage
+	(1)  de_dust2     (2)  de_nuke      (3)  de_mirage	
+	(4)  de_inferno   (5)  de_cbble     (6)  de_overpass
+	(7)  de_cache     (8)  de_aztec     (9)  de_dust
+	(10) de_vertigo   (11) cs_office    (12) cs_italy
+	(13) cs_assault   (14) cs_militia   (15) de_train
+	(16) de_bank      (17) de_lake      (18) de_safehouse
+	(19) de_sugarcane (20) de_stmarc    (21) de_shortdust
+	(22) ar_baggage   (23) ar_monastery (24) ar_shoots
+	(25) ar_lake      (26) ar_stmarc    (27) ar_safehouse
+	(q)  Quit
 	
 	Press [Enter] to continue.
 	
 	-----------------------------
 	EOF
 	while read; do
-		if (( "$REPLY" >= "1" )) && (( "$REPLY" <= "33" )); then
+		if (( "$REPLY" >= "1" )) && (( "$REPLY" <= "27" )); then
 			case $REPLY in
 			"1")   map="de_dust2"		;; "2")   map="de_nuke"			;; "3")   map="de_mirage"		;;
 			"4")   map="de_inferno"		;; "5")   map="de_cbble"		;; "6")   map="de_overpass"		;;
 			"7")   map="de_cache"		;; "8")   map="de_aztec"		;; "9")   map="de_dust"			;;
 			"10")  map="de_vertigo"		;; "11")  map="cs_office"		;; "12")  map="cs_italy"		;;
 			"13")  map="cs_assault"		;; "14")  map="cs_militia"		;; "15")  map="de_train"		;;
-			"16")  map="cs_workout"		;; "17")  map="cs_backalley"		;; "18")  map="de_marquis"		;;
-			"19")  map="de_facade"		;; "20")  map="de_season"		;; "21")  map="de_bazaar"		;;
-			"22")  map="de_bank"		;; "23")  map="de_lake"			;; "24")  map="de_safehouse"	;;
-			"25")  map="de_sugarcane"	;; "26")  map="de_stmarc"		;; "27")  map="de_shortdust"	;;
-			"28")  map="ar_baggage"		;; "29")  map="ar_monastery"		;; "30")  map="ar_shoots"		;;
-			"31")  map="ar_lake"		;; "32")  map="ar_stmarc"		;; "33")  map="ar_safehouse"	;;
+			"16")  map="de_bank"		;; "17")  map="de_lake"			;; "18")  map="de_safehouse"		;;
+			"19")  map="de_sugarcane"	;; "20")  map="de_stmarc"		;; "21")  map="de_shortdust"		;;
+			"22")  map="ar_baggage"		;; "23")  map="ar_monastery"		;; "24")  map="ar_shoots"		;;
+			"25")  map="ar_lake"		;; "26")  map="ar_stmarc"		;; "27")  map="ar_safehouse"		;;
 			esac
 			break
 		elif (( "$REPLY" == "q" )); then 
@@ -397,7 +391,6 @@ do
 	(5) Demolition
 	(6) Arms Race
 	(6) Deathmatch
-	(7) Operation Vanguard
 	(q) Quit
 	
 	Press [Enter] to continue.
@@ -405,7 +398,7 @@ do
 	-----------------------------
 	EOF
 	while read; do
-		if (( "$REPLY" >= "1" )) && (( "$REPLY" <= "7" )); then
+		if (( "$REPLY" >= "1" )) && (( "$REPLY" <= "6" )); then
 			case $REPLY in
 			"1")  map_group="mg_active"	;;
 			"2")  map_group="mg_reserves"	;;
@@ -413,7 +406,6 @@ do
 			"4")  map_group="mg_hostage"	;;
 			"5")  map_group="mg_demolition"	;;
 			"6")  map_group="mg_armsrace"	;;
-			"7")  map_group="mg_op_op05"	;;
 			esac
 			break
 		elif (( "$REPLY" == "q" )); then 
