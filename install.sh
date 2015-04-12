@@ -169,7 +169,7 @@ start_spinner "${bold}Installing SteamCMD${normal}"
 cd /home/$svc_acct
 mkdir $steamcmd_folder
 cd $steamcmd_folder
-wget -4 ${steam_file}
+wget -4 --timeout=5 --tries=3 ${steam_file}
 tar -xvzf steamcmd_linux.tar.gz
 rm -f steamcmd_linux.tar.gz
 ./steamcmd.sh +login anonymous +force_install_dir /home/$svc_acct +quit
@@ -206,11 +206,11 @@ tar xfz sourcemod*
 rm -f sourcemod*
 
 # Download Naid Tails Plugin For Practice Mode @ https://forums.alliedmods.net/showthread.php?t=240668
-wget --no-check-certificate https://googledrive.com/host/0B53_UHGqg56QUjZXX0ZwODBoYWc -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/NadeTails.disabled
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/nadetails/NadeTails.smx -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/NadeTails.disabled
 
 # Download Retakes Plugin As Server Option @ https://forums.alliedmods.net/showthread.php?t=251829
-wget --no-check-certificate https://googledrive.com/host/0B53_UHGqg56QUkJCVTk5ZFRJQWM -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/retakes.disabled
-wget --no-check-certificate https://googledrive.com/host/0B53_UHGqg56QTFpsRTUtSTV2cW8 -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/scripting/retakes.sp
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/retakes/addons/sourcemod/plugins/retakes.smx -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/retakes.disabled
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/retakes/addons/sourcemod/scripting/retakes.sp -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/scripting/retakes.sp
 sed -i '$ d' /home/$svc_acct/$game_folder/csgo/addons/sourcemod/configs/databases.cfg
 cat <<'EOF' >> /home/$svc_acct/$game_folder/csgo/addons/sourcemod/configs/databases.cfg
     {
@@ -222,11 +222,11 @@ cat <<'EOF' >> /home/$svc_acct/$game_folder/csgo/addons/sourcemod/configs/databa
     }
 }
 EOF
-wget --no-check-certificate https://googledrive.com/host/0B53_UHGqg56QM09YS3R4dzdxY0E -O /home/$svc_acct/$game_folder/csgo/cfg/sourcemod/retakes.cfg
-wget --no-check-certificate https://googledrive.com/host/0B53_UHGqg56QQWFzaVBtNEU0NlU -O /home/$svc_acct/$game_folder/csgo/cfg/sourcemod/retakes_live.cfg
-wget --no-check-certificate https://googledrive.com/host/0B53_UHGqg56QeDVDbDBIdmZZWEU -O /home/$svc_acct/$game_folder/csgo/cfg/sourcemod/retakes_warmup.cfg
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/retakes/cfg/retakes.cfg -O /home/$svc_acct/$game_folder/csgo/cfg/sourcemod/retakes.cfg
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/retakes/cfg/retakes_live.cfg -O /home/$svc_acct/$game_folder/csgo/cfg/sourcemod/retakes_live.cfg
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/retakes/cfg/retakes_warmup.cfg -O /home/$svc_acct/$game_folder/csgo/cfg/sourcemod/retakes_warmup.cfg
 mkdir /home/$svc_acct/$game_folder/csgo/addons/sourcemod/data/sqlite
-wget --no-check-certificate https://googledrive.com/host/0B53_UHGqg56QNVVVZS1xaHBqb00 -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/data/sqlite/retakes-sqlite.sq3
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/retakes/addons/sourcemod/data/sqlite/retakes-sqlite.sq3 -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/data/sqlite/retakes-sqlite.sq3
 } &>> install.log
 
 stop_spinner $?
@@ -529,7 +529,7 @@ fi
 
 # Reset Retakes
 if [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.smx  ]]; then
-	mv /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.smx /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.disable
+	mv /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.smx /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.disabled
 fi
 
 # Reset Nade Tails
@@ -562,10 +562,11 @@ fi
 elif [[ $server == "retakes" ]]; then
 
 	# Enable Retakes Plugins
-	if [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.disable  ]]; then
-		mv /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.disable /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.smx
-		./srcds_run -game csgo -usercon -strictportbind +game_mode 1 +game_type 0 +mapgroup ${map_group} +map ${map} -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg}
+	if [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.disabled  ]]; then
+		mv /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.disabled /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.smx
 	fi
+	
+	./srcds_run -game csgo -usercon -strictportbind +game_mode 1 +game_type 0 +mapgroup ${map_group} +map ${map} -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg}
 	
 fi
 EOF
