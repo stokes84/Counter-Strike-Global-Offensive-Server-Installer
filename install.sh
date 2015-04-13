@@ -151,9 +151,9 @@ if [[ -f /etc/redhat-release ]]; then
 elif [[ -f /etc/lsb_release || -f /etc/debian_version ]]; then
 	if [[ $(uname -m) == *x86_64* ]]; then
 		apt-get -y update lib64gcc1
-		apt-get -y install lib32gcc1 tar.x86_64
+		apt-get -y install lib32gcc1 tar
 	else
-		apt-get -y install lib32gcc1 tar.i686
+		apt-get -y install lib32gcc1 tar
 	fi
 	if ! id -u $svc_acct; then
 		adduser --disabled-password --gecos "" $svc_acct
