@@ -13,9 +13,9 @@ SourceMod: http://www.sourcemod.net/
 SourceMod Plugins: http://www.sourcemod.net/plugins.php?cat=0&mod=21&title=&author=&description=&search=1
 
 <br><br>
-./launch.sh Automated Server Options
+CSGO Automated Server Options
 ------------------------------------
-+ Standard Server (Casual, Competative, Arms Race, Demolition, and Deathmatch)
++ Standard Server (Casual, Competitive, Arms Race, Demolition, and Deathmatch)
 + Practice Mode Server /w Config and Nade Tails Plugin (https://forums.alliedmods.net/showthread.php?t=240668)
 + Retakes Server /w Retakes v1.2.1 Plugin (https://forums.alliedmods.net/showthread.php?t=251829)
 + Game Mode & Game Type Selection
@@ -53,15 +53,16 @@ Usage
 ```
 su steam
 ```
+For interactive launcher (Practice Mode, Retakes, or Server Option Selectors)
+```
+csgo
+```
+For classic CLI launcher (options listed @ bottom)
 ```
 cd /home/steam/csgo
 ```
 ```
 ./srcds_run -game csgo +Command_Line_Options
-```
-For interactive launcher (Practice Mode, Retakes, or Server Option Selectors)
-```
-./launch.sh
 ```
 
 <br><br>

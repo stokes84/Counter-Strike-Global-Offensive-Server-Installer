@@ -146,6 +146,7 @@ if [[ -f /etc/redhat-release ]]; then
 	fi
 	if ! id -u $svc_acct; then
 		adduser $svc_acct
+		echo 'alias csgo="cd /home/steam/csgo; ./launch.sh"' >> /home/steam/.bashrc
 	fi
 # If Ubuntu || Debian
 elif [[ -f /etc/lsb_release || -f /etc/debian_version ]]; then
@@ -157,6 +158,7 @@ elif [[ -f /etc/lsb_release || -f /etc/debian_version ]]; then
 	fi
 	if ! id -u $svc_acct; then
 		adduser --disabled-password --gecos "" $svc_acct
+		echo 'alias csgo="cd /home/steam/csgo; ./launch.sh"' >> /home/steam/.bashrc
 	fi
 else
 	printf "Only CentOS, Fedora, Ubuntu, and Debian officially supported\n"
