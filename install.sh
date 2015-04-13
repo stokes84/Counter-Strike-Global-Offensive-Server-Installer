@@ -562,7 +562,7 @@ if [[ $server == "practice" ]]; then
 	
 fi
 	
-elif [[ $server == "retakes" ]]; then
+if [[ $server == "retakes" ]]; then
 
 	# Enable Retakes Plugins
 	if [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.disabled  ]]; then
