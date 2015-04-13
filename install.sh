@@ -144,6 +144,9 @@ if [[ -f /etc/redhat-release ]]; then
 	else
 		yum install -y glibc libstdc++ tar.i686
 	fi
+	if ! id -u $svc_acct; then
+		adduser $svc_acct
+	fi
 # If Ubuntu || Debian
 elif [[ -f /etc/lsb_release || -f /etc/debian_version ]]; then
 	if [[ $(uname -m) == *x86_64* ]]; then
@@ -152,12 +155,12 @@ elif [[ -f /etc/lsb_release || -f /etc/debian_version ]]; then
 	else
 		apt-get -y install lib32gcc1 tar.i686
 	fi
+	if ! id -u $svc_acct; then
+		adduser --disabled-password --gecos "" $svc_acct
+	fi
 else
 	printf "Only CentOS, Fedora, Ubuntu, and Debian officially supported\n"
 	(exit 1)
-fi
-if ! id -u $svc_acct; then
-	adduser $svc_acct
 fi
 } &> install.log
 
