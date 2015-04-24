@@ -209,7 +209,13 @@ start_spinner "${bold}Installing SourceMod${normal}"
 wget -4 ${sourcemod_file} 
 tar xfz sourcemod*
 rm -f sourcemod*
+} &>> install.log
 
+stop_spinner $?
+
+start_spinner "${bold}Installing Plugins${normal}"
+
+{
 # Download Naid Tails Plugin For Practice Mode @ https://forums.alliedmods.net/showthread.php?t=240668
 wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/nadetails/NadeTails.smx -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/NadeTails.disabled
 
@@ -218,7 +224,8 @@ wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-S
 wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/retakes/addons/sourcemod/scripting/retakes.sp -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/scripting/retakes.sp
 sed -i '$ d' /home/$svc_acct/$game_folder/csgo/addons/sourcemod/configs/databases.cfg
 cat <<'EOF' >> /home/$svc_acct/$game_folder/csgo/addons/sourcemod/configs/databases.cfg
-    {
+    "retakes"
+	{
         "driver"            "sqlite"
         "host"              "localhost"
         "database"          "retakes-sqlite"
@@ -232,6 +239,55 @@ wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-S
 wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/retakes/cfg/retakes_warmup.cfg -O /home/$svc_acct/$game_folder/csgo/cfg/sourcemod/retakes_warmup.cfg
 mkdir /home/$svc_acct/$game_folder/csgo/addons/sourcemod/data/sqlite
 wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/retakes/addons/sourcemod/data/sqlite/retakes-sqlite.sq3 -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/data/sqlite/retakes-sqlite.sq3
+
+# Download Multi 1v1 Plugin https://forums.alliedmods.net/showthread.php?t=241056
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/addons/sourcemod/configs/multi1v1_weapons.cfg -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/configs/multi1v1_weapons.cfg
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/addons/sourcemod/plugins/multi1v1.smx -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/multi1v1.disabled
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/addons/sourcemod/plugins/disabled/multi1v1_flashbangs.smx -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/disabled/multi1v1_flashbangs.smx
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/addons/sourcemod/plugins/disabled/multi1v1_kniferounds.smx -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/disabled/multi1v1_kniferounds.smx
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/addons/sourcemod/scripting/include/multi1v1.inc -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/scripting/include/multi1v1.inc
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/addons/sourcemod/scripting/include/queue.inc -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/scripting/include/queue.inc
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/addons/sourcemod/scripting/include/updater.inc -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/scripting/include/updater.inc
+mkdir /home/$svc_acct/$game_folder/csgo/addons/sourcemod/scripting/multi1v1
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/addons/sourcemod/scripting/multi1v1/generic.sp -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/scripting/multi1v1/generic.sp
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/addons/sourcemod/scripting/multi1v1/natives.sp -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/scripting/multi1v1/natives.sp
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/addons/sourcemod/scripting/multi1v1/radiocommands.sp -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/scripting/multi1v1/radiocommands.sp
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/addons/sourcemod/scripting/multi1v1/roundtypes.sp -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/scripting/multi1v1/roundtypes.sp
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/addons/sourcemod/scripting/multi1v1/spawns.sp -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/scripting/multi1v1/spawns.sp
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/addons/sourcemod/scripting/multi1v1/stats.sp -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/scripting/multi1v1/stats.sp
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/addons/sourcemod/scripting/multi1v1/version.sp -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/scripting/multi1v1/version.sp
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/addons/sourcemod/scripting/multi1v1/weaponlogic.sp -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/scripting/multi1v1/weaponlogic.sp
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/addons/sourcemod/scripting/multi1v1.sp -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/scripting/multi1v1.sp
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/addons/sourcemod/scripting/multi1v1_flashbangs.sp -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/scripting/multi1v1_flashbangs.sp
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/addons/sourcemod/scripting/multi1v1_kniferounds.sp -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/scripting/multi1v1_kniferounds.sp
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/addons/sourcemod/scripting/multi1v1_online_stats_viewer.sp -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/scripting/multi1v1_online_stats_viewer.sp
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/addons/sourcemod/translations/chi/multi1v1.phrases.txt -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/translations/chi/multi1v1.phrases.txt
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/addons/sourcemod/translations/de/multi1v1.phrases.txt -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/translations/de/multi1v1.phrases.txt
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/addons/sourcemod/translations/fr/multi1v1.phrases -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/translations/fr/multi1v1.phrases
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/addons/sourcemod/translations/pl/multi1v1.phrases.txt -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/translations/pl/multi1v1.phrases.txt
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/addons/sourcemod/translations/pt_p/multi1v1.phrases.txt -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/translations/pt_p/multi1v1.phrases.txt
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/addons/sourcemod/translations/sv/multi1v1.phrases.txt -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/translations/sv/multi1v1.phrases.txt
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/addons/sourcemod/translations/multi1v1.phrases.txt -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/translations/multi1v1.phrases.txt
+mkdir /home/$svc_acct/$game_folder/csgo/cfg/sourcemod/multi1v1
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/cfg/sourcemod/multi1v1/game_cvars.cfg -O /home/$svc_acct/$game_folder/csgo/cfg/sourcemod/multi1v1/game_cvars.cfg
+### Disabled online stats viewer plugin due to manual DB creation needed
+### DB creation instructions @ https://github.com/splewis/csgo-multi-1v1/blob/v1.0.0/README.md
+### Alter DB connection info and use commands below then create DB
+#wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/1v1/addons/sourcemod/plugins/disabled/multi1v1_online_stats_viewer.smx -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/disabled/multi1v1_online_stats_viewer.smx
+#sed -i '$ d' /home/$svc_acct/$game_folder/csgo/addons/sourcemod/configs/databases.cfg
+#cat <<'EOF' >> /home/$svc_acct/$game_folder/csgo/addons/sourcemod/configs/databases.cfg
+#	"multi1v1"
+#	{
+#		"driver"            "mysql"
+#		"host"              "123.123.123.123"   // localhost works too
+#		"database"          "game_servers_database"
+#		"user"              "mymulti1v1server"
+#		"pass"              "strongpassword"
+#		"timeout"           "10"
+#		"port"          "3306"  // whatever port MySQL is set up on, 3306 is default
+#	}
+#}
+#EOF
 } &>> install.log
 
 stop_spinner $?
@@ -250,15 +306,18 @@ start_spinner "${bold}Creating CSGO Launcher${normal}"
 {
 cat <<'EOF' > /home/$svc_acct/$game_folder/launch.sh
 #!/bin/bash
+servercfg=
+server=
+workshop=
+authkey=
 game_type=
 game_mode=
-map_group=
 map=
+map_group=
 tickrate=
 maxplayers=
 wan_ip=$(wget -qO- http://ipecho.net/plain ; echo)
 port=
-retakes=
 
 while :
 do 
@@ -273,6 +332,7 @@ do
 	(1) Standard
 	(2) Practice Mode
 	(3) Retakes Server
+	(4) 1v1 Arena Server
 	(q) Quit
 	
 	Press [Enter] to continue.
@@ -280,14 +340,15 @@ do
 	-----------------------------
 	EOF
 	while read; do
-		if [ $REPLY -ge 1 -a $REPLY -le 3 ]; then
+		if (( "$REPLY" >= "1" )) && (( "$REPLY" <= "4" )); then
 			case $REPLY in
 			"1")  servercfg="server.cfg" 	server=standard	;;
 			"2")  servercfg="practice.cfg" 	server=practice	;;
 			"3")  servercfg="server.cfg" 	server=retakes	;;
+			"4")  servercfg="server.cfg" 	server=1v1		workshop=true;;
 			esac
 			break
-		elif [ $REPLY == q ]; then 
+		elif [[ "$REPLY" == "q" ]]; then 
 			exit 1
 		else
 			echo "Invalid Option"
@@ -295,131 +356,164 @@ do
 	done
 	sleep .5
 	
-	
-	if [[ $server == "standard" ]]; then
+	if [[ $workshop == "true" ]]; then
 	
 		clear
 		cat<<-EOF
 		============================
 		Counter-Strike Server Setup
 		============================
-		Game Mode & Game Type
+		Workshop Auth Key
 
-		(1) Casual
-		(2) Competitive
-		(3) Arms Race
-		(4) Demolition
-		(5) Deathmatch
+		To Generate Key: http://steamcommunity.com/dev/apikey
+		
 		(q) Quit
-	
+
 		Press [Enter] to continue.
+
+		-----------------------------
+		EOF
+		while read -i ${authkey} -e authkey; do
+			if [[ "$authkey" == "q" ]]; then
+				exit 1
+			elif ! [[ "$authkey" =~ [^a-zA-Z0-9] ]] && [[ -n "$authkey" ]]; then 
+				sed -i '0,/authkey\=/s//authkey\=\${authkey}/' launch.sh
+				break
+			else
+				echo "Invalid Option"
+				authkey=
+			fi
+		done
+		sleep .5
 	
+	else
+	
+		if [[ $server == "standard" ]]; then
+		
+			clear
+			cat<<-EOF
+			============================
+			Counter-Strike Server Setup
+			============================
+			Game Mode & Game Type
+
+			(1) Casual
+			(2) Competitive
+			(3) Arms Race
+			(4) Demolition
+			(5) Deathmatch
+			(q) Quit
+		
+			Press [Enter] to continue.
+		
+			-----------------------------
+			EOF
+			while read; do
+				if (( "$REPLY" >= "1" )) && (( "$REPLY" <= "5" )); then
+					case $REPLY in
+					"1")  game_type="0" game_mode="0"	;;
+					"2")  game_type="0" game_mode="1"	;;
+					"3")  game_type="1" game_mode="0"	;;
+					"4")  game_type="1" game_mode="1"	;;
+					"5")  game_type="1" game_mode="2"	;;
+					esac
+					break
+				elif [[ "$REPLY" == "q" ]]; then 
+					exit 1
+				else
+					echo "Invalid Option"
+				fi
+			done
+			sleep .5
+				
+		fi
+
+		
+		clear
+		cat<<-EOF
+		============================
+		Counter-Strike Server Setup
+		============================
+		Map
+
+		(1)  de_dust2     (2)  de_nuke      (3)  de_mirage	
+		(4)  de_inferno   (5)  de_cbble     (6)  de_overpass
+		(7)  de_cache     (8)  de_aztec     (9)  de_dust
+		(10) de_vertigo   (11) cs_office    (12) cs_italy
+		(13) cs_assault   (14) cs_militia   (15) de_train
+		(16) de_bank      (17) de_lake      (18) de_safehouse
+		(19) de_sugarcane (20) de_stmarc    (21) de_shortdust
+		(22) ar_baggage   (23) ar_monastery (24) ar_shoots
+		(25) ar_lake      (26) ar_stmarc    (27) ar_safehouse
+		(q)  Quit
+		
+		Press [Enter] to continue.
+		
 		-----------------------------
 		EOF
 		while read; do
-			if (( "$REPLY" >= "1" )) && (( "$REPLY" <= "2" )); then
+			if (( "$REPLY" >= "1" )) && (( "$REPLY" <= "27" )); then
 				case $REPLY in
-				"1")  game_type="0" game_mode="0"	;;
-				"2")  game_type="0" game_mode="1"	;;
-				"3")  game_type="1" game_mode="0"	;;
-				"4")  game_type="1" game_mode="1"	;;
-				"5")  game_type="1" game_mode="2"	;;
+				"1")   map="de_dust2"		;; "2")   map="de_nuke"			;; "3")   map="de_mirage"		;;
+				"4")   map="de_inferno"		;; "5")   map="de_cbble"		;; "6")   map="de_overpass"		;;
+				"7")   map="de_cache"		;; "8")   map="de_aztec"		;; "9")   map="de_dust"			;;
+				"10")  map="de_vertigo"		;; "11")  map="cs_office"		;; "12")  map="cs_italy"		;;
+				"13")  map="cs_assault"		;; "14")  map="cs_militia"		;; "15")  map="de_train"		;;
+				"16")  map="de_bank"		;; "17")  map="de_lake"			;; "18")  map="de_safehouse"		;;
+				"19")  map="de_sugarcane"	;; "20")  map="de_stmarc"		;; "21")  map="de_shortdust"		;;
+				"22")  map="ar_baggage"		;; "23")  map="ar_monastery"	;; "24")  map="ar_shoots"		;;
+				"25")  map="ar_lake"		;; "26")  map="ar_stmarc"		;; "27")  map="ar_safehouse"		;;
 				esac
 				break
-			elif (( "$REPLY" == "q" )); then 
+			elif [[ "$REPLY" == "q" ]]; then 
 				exit 1
 			else
 				echo "Invalid Option"
 			fi
 		done
-    		sleep .5
-    		
-    	fi
+		sleep .5
+		
+		
+		clear
+		cat<<-EOF
+		============================
+		Counter-Strike Server Setup
+		============================
+		Map Group
 
+		(1) Active
+		(2) Reserves
+		(3) Bomb
+		(4) Hostage
+		(5) Demolition
+		(6) Arms Race
+		(6) Deathmatch
+		(q) Quit
+		
+		Press [Enter] to continue.
+		
+		-----------------------------
+		EOF
+		while read; do
+			if (( "$REPLY" >= "1" )) && (( "$REPLY" <= "6" )); then
+				case $REPLY in
+				"1")  map_group="mg_active"	;;
+				"2")  map_group="mg_reserves"	;;
+				"3")  map_group="mg_bomb"	;;
+				"4")  map_group="mg_hostage"	;;
+				"5")  map_group="mg_demolition"	;;
+				"6")  map_group="mg_armsrace"	;;
+				esac
+				break
+			elif [[ "$REPLY" == "q" ]]; then 
+				exit 1
+			else
+				echo "Invalid Option"
+			fi
+		done
+		sleep .5
 	
-	clear
-	cat<<-EOF
-	============================
-	Counter-Strike Server Setup
-	============================
-	Map
-
-	(1)  de_dust2     (2)  de_nuke      (3)  de_mirage	
-	(4)  de_inferno   (5)  de_cbble     (6)  de_overpass
-	(7)  de_cache     (8)  de_aztec     (9)  de_dust
-	(10) de_vertigo   (11) cs_office    (12) cs_italy
-	(13) cs_assault   (14) cs_militia   (15) de_train
-	(16) de_bank      (17) de_lake      (18) de_safehouse
-	(19) de_sugarcane (20) de_stmarc    (21) de_shortdust
-	(22) ar_baggage   (23) ar_monastery (24) ar_shoots
-	(25) ar_lake      (26) ar_stmarc    (27) ar_safehouse
-	(q)  Quit
-	
-	Press [Enter] to continue.
-	
-	-----------------------------
-	EOF
-	while read; do
-		if (( "$REPLY" >= "1" )) && (( "$REPLY" <= "27" )); then
-			case $REPLY in
-			"1")   map="de_dust2"		;; "2")   map="de_nuke"			;; "3")   map="de_mirage"		;;
-			"4")   map="de_inferno"		;; "5")   map="de_cbble"		;; "6")   map="de_overpass"		;;
-			"7")   map="de_cache"		;; "8")   map="de_aztec"		;; "9")   map="de_dust"			;;
-			"10")  map="de_vertigo"		;; "11")  map="cs_office"		;; "12")  map="cs_italy"		;;
-			"13")  map="cs_assault"		;; "14")  map="cs_militia"		;; "15")  map="de_train"		;;
-			"16")  map="de_bank"		;; "17")  map="de_lake"			;; "18")  map="de_safehouse"		;;
-			"19")  map="de_sugarcane"	;; "20")  map="de_stmarc"		;; "21")  map="de_shortdust"		;;
-			"22")  map="ar_baggage"		;; "23")  map="ar_monastery"		;; "24")  map="ar_shoots"		;;
-			"25")  map="ar_lake"		;; "26")  map="ar_stmarc"		;; "27")  map="ar_safehouse"		;;
-			esac
-			break
-		elif (( "$REPLY" == "q" )); then 
-			exit 1
-		else
-			echo "Invalid Option"
-		fi
-	done
-	sleep .5
-	
-	
-	clear
-	cat<<-EOF
-	============================
-	Counter-Strike Server Setup
-	============================
-	Map Group
-
-	(1) Active
-	(2) Reserves
-	(3) Bomb
-	(4) Hostage
-	(5) Demolition
-	(6) Arms Race
-	(6) Deathmatch
-	(q) Quit
-	
-	Press [Enter] to continue.
-	
-	-----------------------------
-	EOF
-	while read; do
-		if (( "$REPLY" >= "1" )) && (( "$REPLY" <= "6" )); then
-			case $REPLY in
-			"1")  map_group="mg_active"	;;
-			"2")  map_group="mg_reserves"	;;
-			"3")  map_group="mg_bomb"	;;
-			"4")  map_group="mg_hostage"	;;
-			"5")  map_group="mg_demolition"	;;
-			"6")  map_group="mg_armsrace"	;;
-			esac
-			break
-		elif (( "$REPLY" == "q" )); then 
-			exit 1
-		else
-			echo "Invalid Option"
-		fi
-	done
-	sleep .5
+	fi
 	
 	
 	clear
@@ -438,13 +532,13 @@ do
 	-----------------------------
 	EOF
 	while read; do
-		if [ $REPLY -ge 1 -a $REPLY -le 2 ]; then
+		if (( "$REPLY" >= "1" )) && (( "$REPLY" <= "2" )); then
 			case $REPLY in
 			"1")  tickrate="64"				;;
 			"2")  tickrate="128"			;;
 			esac
 			break
-		elif [ $REPLY == q ]; then 
+		elif [[ "$REPLY" == "q" ]]; then 
 			exit 1
 		else
 			echo "Invalid Option"
@@ -468,7 +562,7 @@ do
 	-----------------------------
 	EOF
 	while read maxplayers; do
-		if [[ "$maxplayers" =~ ^[0-9]+$ ]] && [ "$maxplayers" -ge 1 -a "$maxplayers" -le 32 ]; then
+		if (( "$maxplayers" >= "1" )) && (( "$maxplayers" <= "32" )); then
 			break
 		else
 			echo "Invalid Option"
@@ -542,6 +636,11 @@ if [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.smx ]]; then
 	mv /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.smx /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.disabled
 fi
 
+# Reset Multi 1v1 Plugin
+if [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/multi1v1.smx ]]; then
+	mv /home/steam/csgo/csgo/addons/sourcemod/plugins/multi1v1.smx /home/steam/csgo/csgo/addons/sourcemod/plugins/multi1v1.disabled
+fi
+
 if [[ $server == "standard" ]]; then
 	
 	# Enable Default Comp Mode Config For Standard Servers
@@ -566,12 +665,27 @@ fi
 	
 if [[ $server == "retakes" ]]; then
 
-	# Enable Retakes Plugins
+	# Enable Retakes Plugin
 	if [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.disabled  ]]; then
 		mv /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.disabled /home/steam/csgo/csgo/addons/sourcemod/plugins/retakes.smx
 	fi
 	
+	if [[ -a /home/steam/csgo/csgo/cfg/gamemode_competitive.bak ]]; then
+		mv /home/steam/csgo/csgo/cfg/gamemode_competitive.bak /home/steam/csgo/csgo/cfg/gamemode_competitive.cfg
+	fi
+	
 	./srcds_run -game csgo -usercon -strictportbind +game_mode 1 +game_type 0 +mapgroup ${map_group} +map ${map} -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg}
+	
+fi
+
+if [[ $server == "1v1" ]]; then
+
+	# Enable Multi 1v1 Plugin
+	if [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/multi1v1.disabled  ]]; then
+		mv /home/steam/csgo/csgo/addons/sourcemod/plugins/multi1v1.disabled /home/steam/csgo/csgo/addons/sourcemod/plugins/multi1v1.smx
+	fi
+	
+	./srcds_run -game csgo -usercon -strictportbind -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg} -authkey ${authkey} +host_workshop_collection 279177557 +workshop_start_map 280544066
 	
 fi
 EOF
@@ -582,13 +696,13 @@ cat <<EOF > /home/$svc_acct/$game_folder/csgo/cfg/practice.cfg
 //TYPE: Practice Server Config 
 
 //Host and RCON settings
-hostname				"${server_name}"
-rcon_password				"${rcon_password}"
-sv_password				"${server_password}"
-sv_rcon_banpenalty			"0"
-sv_rcon_maxfailures			"10"
-sv_rcon_minfailures			"5"
-sv_rcon_minfailuretime			"30"
+hostname								"${server_name}"
+rcon_password							"${rcon_password}"
+sv_password								"${server_password}"
+sv_rcon_banpenalty						"0"
+sv_rcon_maxfailures						"10"
+sv_rcon_minfailures						"5"
+sv_rcon_minfailuretime					"30"
 sv_cheats                               "1"
 bot_quota                               "2"
 bot_dont_shoot                          "1"
@@ -632,18 +746,18 @@ mp_t_default_primary                    "weapon_ak47"
 mp_warmup_end
 
 //Bandwidth Rates
-sv_minrate				"7500"
-sv_maxrate				"25000"
+sv_minrate					"7500"
+sv_maxrate					"25000"
 decalfrequency				"30"
 sv_minupdaterate			"100"
 sv_maxupdaterate			"101"
 
 //Server logging
-log					"off"
+log						"off"
 sv_logbans				"0"
 sv_logecho				"1"
 sv_logfile				"1"
-sv_log_onefile				"0"
+sv_log_onefile			"0"
 
 //Operation
 sv_lan					"0"
@@ -664,27 +778,27 @@ cat <<EOF > /home/$svc_acct/$game_folder/csgo/cfg/server.cfg
 //TYPE: Regular Server Config 
 
 //Host and RCON settings
-hostname				"${server_name}"
+hostname					"${server_name}"
 rcon_password				"${rcon_password}"
-sv_password				"${server_password}"
+sv_password					"${server_password}"
 sv_rcon_banpenalty			"0"
 sv_rcon_maxfailures			"10"
 sv_rcon_minfailures			"5"
-sv_rcon_minfailuretime			"30"
+sv_rcon_minfailuretime		"30"
 
 //Bandwidth Rates
-sv_minrate				"7500"
-sv_maxrate				"25000"
+sv_minrate					"7500"
+sv_maxrate					"25000"
 decalfrequency				"30"
 sv_minupdaterate			"100"
 sv_maxupdaterate			"101"
 
 //Server logging
-log					"off"
+log						"off"
 sv_logbans				"0"
 sv_logecho				"1"
 sv_logfile				"1"
-sv_log_onefile				"0"
+sv_log_onefile			"0"
 
 //Operation
 sv_lan					"0"
