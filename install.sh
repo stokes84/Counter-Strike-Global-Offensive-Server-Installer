@@ -288,6 +288,9 @@ wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-S
 #	}
 #}
 #EOF
+
+# Download Headshot Only Plugin @ https://forums.alliedmods.net/showthread.php?p=2091135
+wget --no-check-certificate https://raw.githubusercontent.com/stokes84/Counter-Strike-Global-Offensive-Server-Installer/master/hsonly/onlyhs-beta.smx -O /home/$svc_acct/$game_folder/csgo/addons/sourcemod/plugins/onlyhs-beta.disabled
 } &>> install.log
 
 stop_spinner $?
@@ -515,6 +518,37 @@ do
 	
 	fi
 	
+
+	clear
+	cat<<-EOF
+	============================
+	Counter-Strike Server Setup
+	============================
+	Headshot Only Server
+
+	(1) Yes (Headshot Only)
+	(2) No  (Standard)
+	(q) Quit
+	
+	Press [Enter] to continue.
+	
+	-----------------------------
+	EOF
+	while read; do
+		if (( "$REPLY" >= "1" )) && (( "$REPLY" <= "2" )); then
+			case $REPLY in
+			"1")  hsonly="true" ;;
+			"2")  hsonly=		;;
+			esac
+			break
+		elif [[ "$REPLY" == "q" ]]; then 
+			exit 1
+		else
+			echo "Invalid Option"
+		fi
+	done
+	sleep .5
+	
 	
 	clear
 	cat<<-EOF
@@ -641,11 +675,20 @@ if [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/multi1v1.smx ]]; then
 	mv /home/steam/csgo/csgo/addons/sourcemod/plugins/multi1v1.smx /home/steam/csgo/csgo/addons/sourcemod/plugins/multi1v1.disabled
 fi
 
+# Reset Headshot Only Plugin
+if [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/onlyhs-beta.smx ]]; then
+	mv /home/steam/csgo/csgo/addons/sourcemod/plugins/onlyhs-beta.smx /home/steam/csgo/csgo/addons/sourcemod/plugins/onlyhs-beta.disabled
+fi
+
 if [[ $server == "standard" ]]; then
 	
 	# Enable Default Comp Mode Config For Standard Servers
 	if [[ -a /home/steam/csgo/csgo/cfg/gamemode_competitive.bak ]]; then
 		mv /home/steam/csgo/csgo/cfg/gamemode_competitive.bak /home/steam/csgo/csgo/cfg/gamemode_competitive.cfg
+	fi
+	
+	if [[ $hsonly == "true" ]]; then
+		mv /home/steam/csgo/csgo/addons/sourcemod/plugins/onlyhs-beta.disabled /home/steam/csgo/csgo/addons/sourcemod/plugins/onlyhs-beta.smx
 	fi
 	
 	./srcds_run -game csgo -usercon -strictportbind +game_mode ${game_mode} +game_type ${game_type} +mapgroup ${map_group} +map ${map} -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg}
@@ -657,6 +700,10 @@ if [[ $server == "practice" ]]; then
 	# Enable Nade Tails Plugin
 	if [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.disabled ]]; then
 		mv /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.disabled /home/steam/csgo/csgo/addons/sourcemod/plugins/NadeTails.smx
+	fi
+	
+	if [[ $hsonly == "true" ]]; then
+		mv /home/steam/csgo/csgo/addons/sourcemod/plugins/onlyhs-beta.disabled /home/steam/csgo/csgo/addons/sourcemod/plugins/onlyhs-beta.smx
 	fi
 	
 	./srcds_run -game csgo -usercon -strictportbind +game_mode 1 +game_type 0 +mapgroup ${map_group} +map ${map} -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg}
@@ -674,6 +721,10 @@ if [[ $server == "retakes" ]]; then
 		mv /home/steam/csgo/csgo/cfg/gamemode_competitive.bak /home/steam/csgo/csgo/cfg/gamemode_competitive.cfg
 	fi
 	
+	if [[ $hsonly == "true" ]]; then
+		mv /home/steam/csgo/csgo/addons/sourcemod/plugins/onlyhs-beta.disabled /home/steam/csgo/csgo/addons/sourcemod/plugins/onlyhs-beta.smx
+	fi
+	
 	./srcds_run -game csgo -usercon -strictportbind +game_mode 1 +game_type 0 +mapgroup ${map_group} +map ${map} -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg}
 	
 fi
@@ -683,6 +734,10 @@ if [[ $server == "1v1" ]]; then
 	# Enable Multi 1v1 Plugin
 	if [[ -a /home/steam/csgo/csgo/addons/sourcemod/plugins/multi1v1.disabled  ]]; then
 		mv /home/steam/csgo/csgo/addons/sourcemod/plugins/multi1v1.disabled /home/steam/csgo/csgo/addons/sourcemod/plugins/multi1v1.smx
+	fi
+	
+	if [[ $hsonly == "true" ]]; then
+		mv /home/steam/csgo/csgo/addons/sourcemod/plugins/onlyhs-beta.disabled /home/steam/csgo/csgo/addons/sourcemod/plugins/onlyhs-beta.smx
 	fi
 	
 	./srcds_run -game csgo -usercon -strictportbind -tickrate ${tickrate} -maxplayers_override ${maxplayers} -ip ${ip} -port ${port} +servercfgfile ${servercfg} -authkey ${authkey} +host_workshop_collection 279177557 +workshop_start_map 280544066
